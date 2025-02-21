@@ -4,7 +4,7 @@ import { layouts, views } from '../elegant/imports';
 import { transformElegantRoutesToVueRoutes } from '../elegant/transform';
 
 /**
- * custom routes
+ * custom routes 自定义静态路由
  *
  * @link https://github.com/soybeanjs/elegant-router?tab=readme-ov-file#custom-route
  */

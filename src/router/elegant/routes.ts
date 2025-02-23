@@ -74,5 +74,25 @@ export const generatedRoutes: GeneratedRoute[] = [
       constant: true,
       hideInMenu: true
     }
+  },
+  {
+    name: 'manage',
+    path: '/manage',
+    component: 'layout.base',
+    meta: {
+      title: 'manage',
+      i18nKey: 'route.manage'
+    },
+    children: [
+      {
+        name: 'manage_menu',
+        path: '/manage/menu',
+        component: 'view.manage_menu',
+        meta: {
+          title: 'manage_menu',
+          i18nKey: 'route.manage_menu'
+        }
+      }
+    ]
   }
 ];

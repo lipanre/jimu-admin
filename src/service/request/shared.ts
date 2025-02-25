@@ -1,13 +1,11 @@
-import { useAuthStore } from '@/store/modules/auth';
-import { localStg } from '@/utils/storage';
-import { fetchRefreshToken } from '../api';
-import type { RequestInstanceState } from './type';
+import {useAuthStore} from '@/store/modules/auth';
+import {localStg} from '@/utils/storage';
+import {fetchRefreshToken} from '../api';
+import type {RequestInstanceState} from './type';
 
 export function getAuthorization() {
   const token = localStg.get('accessToken');
-  const Authorization = token ? `Bearer ${token}` : null;
-
-  return Authorization;
+  return token ?? null;
 }
 
 /** refresh token */
@@ -17,8 +15,10 @@ async function handleRefreshToken() {
   const rToken = localStg.get('refreshToken') || '';
   const { error, data } = await fetchRefreshToken(rToken);
   if (!error) {
-    localStg.set('accessToken', data.token);
-    localStg.set('refreshToken', data.refreshToken);
+    localStg.set('accessToken', data?.accessToken);
+    localStg.set('refreshToken', data?.refreshToken);
+    localStg.set('expireTime', data?.expireTime)
+    localStg.set('header', data?.header)
     return true;
   }
 

@@ -132,7 +132,7 @@ export const demoRequest = createRequest<App.Service.DemoResponse>(
       const { headers } = config;
 
       // set token
-      const token = localStg.get('token');
+      const token = localStg.get('accessToken');
       const Authorization = token ? `Bearer ${token}` : null;
       Object.assign(headers, { Authorization });
 

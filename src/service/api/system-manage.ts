@@ -1,6 +1,5 @@
 import { request } from '../request';
 
-
 /**
  * get all roles
  *
@@ -11,13 +10,13 @@ export function fetchGetAllRoles() {
   //   url: '/systemManage/getAllRoles',
   //   method: 'get'
   // });
-  return {error: "", data: [{roleName: "管理员", roleCode: "admin"}]}
+  return { error: '', data: [{ roleName: '管理员', roleCode: 'admin' }] };
 }
 
 /** get menu list */
 export function fetchGetMenuList() {
   return request<Api.SystemManage.MenuList>({
-    url: '/systemManage/getMenuList/v2',
+    url: '/menu',
     method: 'get'
   });
 }

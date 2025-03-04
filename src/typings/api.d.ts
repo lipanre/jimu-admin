@@ -127,7 +127,7 @@ declare namespace Api {
       | 'i18nKey'
       | 'keepAlive'
       | 'constant'
-      | 'order'
+      | 'sort'
       | 'href'
       | 'hideInMenu'
       | 'activeMenu'

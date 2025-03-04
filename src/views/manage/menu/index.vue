@@ -170,6 +170,7 @@ const { columns, columnChecks, data, loading, pagination, getData, getDataByPage
   ]
 });
 
+
 const { checkedRowKeys, onBatchDeleted, onDeleted } = useTableOperate(data, getData);
 
 const operateType = ref<OperateType>('add');

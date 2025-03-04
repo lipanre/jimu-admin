@@ -6,7 +6,7 @@ import { $t } from '@/locales';
 import { enableStatusOptions, menuIconTypeOptions, menuTypeOptions } from '@/constants/business';
 import SvgIcon from '@/components/custom/svg-icon.vue';
 import { getLocalIcons } from '@/utils/icon';
-import { fetchGetAllRoles } from '@/service/api';
+import { fetchGetAllRoles, createMenu } from '@/service/api';
 import {
   getLayoutAndPage,
   getPathParamFromRoutePath,
@@ -61,7 +61,7 @@ type Model = Pick<
   | 'routeName'
   | 'routePath'
   | 'component'
-  | 'order'
+  | 'sort'
   | 'i18nKey'
   | 'icon'
   | 'iconType'
@@ -101,7 +101,7 @@ function createDefaultModel(): Model {
     status: '1',
     keepAlive: false,
     constant: false,
-    order: 0,
+    sort: 0,
     href: null,
     hideInMenu: false,
     activeMenu: null,
@@ -257,6 +257,7 @@ async function handleSubmit() {
   console.log('params: ', params);
 
   // request
+  await createMenu(params)
   window.$message?.success($t('common.updateSuccess'));
   closeDrawer();
   emit('submitted');
@@ -319,7 +320,7 @@ watch(
             <NInput v-model:value="model.i18nKey" :placeholder="$t('page.manage.menu.form.i18nKey')" />
           </NFormItemGi>
           <NFormItemGi span="24 m:12" :label="$t('page.manage.menu.order')" path="order">
-            <NInputNumber v-model:value="model.order" class="w-full" :placeholder="$t('page.manage.menu.form.order')" />
+            <NInputNumber v-model:value="model.sort" class="w-full" :placeholder="$t('page.manage.menu.form.order')" />
           </NFormItemGi>
           <NFormItemGi span="24 m:12" :label="$t('page.manage.menu.iconTypeTitle')" path="iconType">
             <NRadioGroup v-model:value="model.iconType">
@@ -458,7 +459,7 @@ watch(
     <template #footer>
       <NSpace justify="end" :size="16">
         <NButton @click="closeDrawer">{{ $t('common.cancel') }}</NButton>
-        <NButton type="primary" @click="handleSubmit">{{ $t('common.confirm') }}</NButton>
+        <NButton type="primary" @click  ="handleSubmit">{{ $t('common.confirm') }}</NButton>
       </NSpace>
     </template>
   </NModal>

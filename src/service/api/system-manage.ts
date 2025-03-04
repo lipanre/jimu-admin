@@ -17,14 +17,18 @@ export function fetchGetAllRoles() {
 export function fetchGetMenuList() {
   return request<Api.SystemManage.MenuList>({
     url: '/menu',
-    method: 'get'
+    method: 'get',
+    params: {
+      pageNum: 1,
+      pageSize: 10
+    }
   });
 }
 
 /** get all pages */
 export function fetchGetAllPages() {
   return request<string[]>({
-    url: '/systemManage/getAllPages',
+    url: '/system-manager/pages',
     method: 'get'
   });
 }
@@ -35,4 +39,17 @@ export function fetchGetMenuTree() {
     url: '/systemManage/getMenuTree',
     method: 'get'
   });
+}
+
+/**
+ * 创建菜单
+ *
+ * @param menu 菜单
+ */
+export function createMenu(menu: any) {
+  return request<Boolean>({
+    url: "/menu",
+    method: "post",
+    data: menu
+  })
 }

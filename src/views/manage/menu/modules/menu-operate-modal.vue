@@ -6,7 +6,7 @@ import { $t } from '@/locales';
 import { enableStatusOptions, menuIconTypeOptions, menuTypeOptions } from '@/constants/business';
 import SvgIcon from '@/components/custom/svg-icon.vue';
 import { getLocalIcons } from '@/utils/icon';
-import { fetchGetAllRoles, createMenu } from '@/service/api';
+import {fetchGetAllRoles, createMenu, updateMenu} from '@/service/api';
 import {
   getLayoutAndPage,
   getPathParamFromRoutePath,
@@ -257,7 +257,13 @@ async function handleSubmit() {
   console.log('params: ', params);
 
   // request
-  await createMenu(params)
+  if (props.operateType == 'add' || props.operateType == 'addChild') {
+    await createMenu(params)
+  }
+
+  if (props.operateType == 'edit') {
+    await updateMenu(params.id, params)
+  }
   window.$message?.success($t('common.updateSuccess'));
   closeDrawer();
   emit('submitted');

@@ -8,9 +8,9 @@ declare namespace Api {
     /** common params of paginating */
     interface PaginatingCommonParams {
       /** current page number */
-      pageNum: number;
+      current: number;
       /** page size */
-      pageSize: number;
+      size: number;
       /** total count */
       total: number;
     }
@@ -21,7 +21,7 @@ declare namespace Api {
     }
 
     /** common search params of table */
-    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'pageNum' | 'pageSize'>;
+    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'current' | 'size'>;
 
     /**
      * enable status
@@ -93,7 +93,7 @@ declare namespace Api {
    * backend api module: "systemManage"
    */
   namespace SystemManage {
-    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'pageNum' | 'pageSize'>;
+    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'current' | 'size'>;
 
     /** role */
     type Role = Common.CommonRecord<{

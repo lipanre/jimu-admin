@@ -37,8 +37,8 @@ export function fetchGetMenuList() {
     url: '/menu',
     method: 'get',
     params: {
-      pageNum: 1,
-      pageSize: -1
+      current: 1,
+      size: -1
     }
   });
 }

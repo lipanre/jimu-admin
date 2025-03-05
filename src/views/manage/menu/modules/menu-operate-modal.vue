@@ -319,7 +319,7 @@ watch(
           <NFormItemGi span="24 m:12" :label="$t('page.manage.menu.i18nKey')" path="i18nKey">
             <NInput v-model:value="model.i18nKey" :placeholder="$t('page.manage.menu.form.i18nKey')" />
           </NFormItemGi>
-          <NFormItemGi span="24 m:12" :label="$t('page.manage.menu.order')" path="order">
+          <NFormItemGi span="24 m:12" :label="$t('page.manage.menu.sort')" path="sort">
             <NInputNumber v-model:value="model.sort" class="w-full" :placeholder="$t('page.manage.menu.form.order')" />
           </NFormItemGi>
           <NFormItemGi span="24 m:12" :label="$t('page.manage.menu.iconTypeTitle')" path="iconType">

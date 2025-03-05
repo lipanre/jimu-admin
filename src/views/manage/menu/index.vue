@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import type { Ref } from 'vue';
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { useBoolean } from '@sa/hooks';
-import {deleteMenu, fetchGetAllPages, fetchGetMenuList} from '@/service/api';
+import {deleteMenu, fetchGetAllPages, fetchGetMenuList, fetchMenuDetail} from '@/service/api';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { $t } from '@/locales';
@@ -194,16 +194,17 @@ async function handleDelete(id: string) {
 /** the edit menu data or the parent menu data when adding a child menu */
 const editingData: Ref<Api.SystemManage.Menu | null> = ref(null);
 
-function handleEdit(item: Api.SystemManage.Menu) {
+async function handleEdit(item: Api.SystemManage.Menu) {
   operateType.value = 'edit';
-  editingData.value = { ...item };
+
+  const detail = await fetchMenuDetail(item.id)
+  editingData.value = { ...detail.data };
 
   openModal();
 }
 
 function handleAddChildMenu(item: Api.SystemManage.Menu) {
   operateType.value = 'addChild';
-
   editingData.value = { ...item };
 
   openModal();

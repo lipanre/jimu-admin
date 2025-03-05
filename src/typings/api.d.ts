@@ -8,9 +8,9 @@ declare namespace Api {
     /** common params of paginating */
     interface PaginatingCommonParams {
       /** current page number */
-      current: number;
+      pageNum: number;
       /** page size */
-      size: number;
+      pageSize: number;
       /** total count */
       total: number;
     }
@@ -21,7 +21,7 @@ declare namespace Api {
     }
 
     /** common search params of table */
-    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'current' | 'size'>;
+    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'pageNum' | 'pageSize'>;
 
     /**
      * enable status
@@ -93,7 +93,29 @@ declare namespace Api {
    * backend api module: "systemManage"
    */
   namespace SystemManage {
-    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'current' | 'size'>;
+    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'pageNum' | 'pageSize'>;
+
+    /** role */
+    type Role = Common.CommonRecord<{
+      /** role name */
+      roleName: string;
+      /** role code */
+      roleCode: string;
+      /** role description */
+      roleDesc: string;
+    }>;
+
+    /** role search params */
+    type RoleSearchParams = CommonType.RecordNullable<
+      Pick<Api.SystemManage.Role, 'roleName' | 'roleCode' | 'status'> & CommonSearchParams
+    >;
+
+    /** role list */
+    type RoleList = Common.PaginatingQueryRecord<Role>;
+
+    /** all role */
+    type AllRole = Pick<Role, 'id' | 'roleName' | 'roleCode'>;
+
 
     /**
      * menu type
@@ -165,8 +187,8 @@ declare namespace Api {
 
     type MenuTree = {
       id: number;
-      label: string;
-      pId: number;
+      menuName: string;
+      parentId: number;
       children?: MenuTree[];
     };
   }

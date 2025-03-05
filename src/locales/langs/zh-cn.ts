@@ -165,6 +165,7 @@ const local: App.I18n.Schema = {
     home: '首页',
     manage: '系统管理',
     manage_menu: '菜单管理',
+    manage_role: '角色管理',
   },
   page: {
     manage: {
@@ -174,10 +175,27 @@ const local: App.I18n.Schema = {
           disable: '禁用'
         }
       },
+      role: {
+        title: '角色列表',
+        roleName: '角色名称',
+        roleCode: '角色编码',
+        roleStatus: '角色状态',
+        roleDesc: '角色描述',
+        menuAuth: '菜单权限',
+        buttonAuth: '按钮权限',
+        form: {
+          roleName: '请输入角色名称',
+          roleCode: '请输入角色编码',
+          roleStatus: '请选择角色状态',
+          roleDesc: '请输入角色描述'
+        },
+        addRole: '新增角色',
+        editRole: '编辑角色'
+      },
       menu: {
         home: '首页',
         title: '菜单列表',
-        id: 'ID',
+        rowNumber: '序号',
         parentId: '父级菜单ID',
         menuType: '菜单类型',
         menuName: '菜单名称',

@@ -92,6 +92,15 @@ export const generatedRoutes: GeneratedRoute[] = [
           title: 'manage_menu',
           i18nKey: 'route.manage_menu'
         }
+      },
+      {
+        name: 'manage_role',
+        path: '/manage/role',
+        component: 'view.manage_role',
+        meta: {
+          title: 'manage_role',
+          i18nKey: 'route.manage_role'
+        }
       }
     ]
   }

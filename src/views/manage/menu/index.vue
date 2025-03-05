@@ -28,8 +28,9 @@ const { columns, columnChecks, data, loading, pagination, getData, getDataByPage
     },
     {
       key: 'id',
-      title: $t('page.manage.menu.id'),
-      align: 'center'
+      title: $t('page.manage.menu.rowNumber'),
+      align: 'center',
+      render: (_, index) => `${index + 1}`,
     },
     {
       key: 'menuType',

@@ -1,5 +1,8 @@
 import { request } from '../request';
 
+
+//////////////////////////////////////////// role start ////////////////////////////////
+
 /**
  * get all roles
  *
@@ -12,6 +15,18 @@ export function fetchGetAllRoles() {
   // });
   return { error: '', data: [{ roleName: '管理员', roleCode: 'admin' }] };
 }
+
+/** get role list */
+export function fetchGetRoleList(params?: Api.SystemManage.RoleSearchParams) {
+  return request<Api.SystemManage.RoleList>({
+    url: '/role',
+    method: 'get',
+    params
+  });
+}
+
+//////////////////////////////////////////// role end ////////////////////////////////
+
 
 //////////////////////////////////////////// menu start ////////////////////////////////
 
@@ -89,5 +104,14 @@ export function deleteMenu(...menuIds: string[]) {
     data: [...menuIds]
   })
 }
+
+/** get menu tree */
+export function fetchGetMenuTree() {
+  return request<Api.SystemManage.MenuTree[]>({
+    url: '/menu',
+    method: 'get',
+  });
+}
+
 
 //////////////////////////////////////////// menu end ////////////////////////////////

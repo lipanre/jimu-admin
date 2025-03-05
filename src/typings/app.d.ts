@@ -505,7 +505,7 @@ declare namespace App {
             icon: string;
             localIcon: string;
             iconTypeTitle: string;
-            order: string;
+            sort: string;
             constant: string;
             keepAlive: string;
             href: string;
@@ -530,7 +530,7 @@ declare namespace App {
               i18nKey: string;
               icon: string;
               localIcon: string;
-              order: string;
+              sort: string;
               keepAlive: string;
               href: string;
               hideInMenu: string;

@@ -134,8 +134,8 @@ const { columns, columnChecks, data, loading, pagination, getData, getDataByPage
       align: 'center'
     },
     {
-      key: 'order',
-      title: $t('page.manage.menu.order'),
+      key: 'sort',
+      title: $t('page.manage.menu.sort'),
       align: 'center',
       width: 60
     },
@@ -169,7 +169,6 @@ const { columns, columnChecks, data, loading, pagination, getData, getDataByPage
     }
   ]
 });
-
 
 const { checkedRowKeys, onBatchDeleted, onDeleted } = useTableOperate(data, getData);
 

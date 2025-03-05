@@ -41,7 +41,7 @@ export function fetchGetAllPages() {
  *
  * @param menu 菜单
  */
-export function createMenu(menu: Api.SystemManage.Menu) {
+export function createMenu(menu: any) {
   return request<Boolean>({
     url: "/menu",
     method: "post",

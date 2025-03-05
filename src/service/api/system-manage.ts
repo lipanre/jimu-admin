@@ -20,7 +20,7 @@ export function fetchGetMenuList() {
     method: 'get',
     params: {
       pageNum: 1,
-      pageSize: 10
+      pageSize: -1
     }
   });
 }

@@ -9,11 +9,10 @@ import { request } from '../request';
  * these roles are all enabled
  */
 export function fetchGetAllRoles() {
-  // return request<Api.SystemManage.AllRole[]>({
-  //   url: '/systemManage/getAllRoles',
-  //   method: 'get'
-  // });
-  return { error: '', data: [{ roleName: '管理员', roleCode: 'admin' }] };
+  return request<Api.SystemManage.AllRole[]>({
+    url: '/systemManage/getAllRoles',
+    method: 'get'
+  });
 }
 
 /** get role list */

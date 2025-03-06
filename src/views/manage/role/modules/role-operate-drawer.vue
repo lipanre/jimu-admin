@@ -6,6 +6,7 @@ import { $t } from '@/locales';
 import { enableStatusOptions } from '@/constants/business';
 import MenuAuthModal from './menu-auth-modal.vue';
 import ButtonAuthModal from './button-auth-modal.vue';
+import {createRole, updateRole} from "@/service/api";
 
 defineOptions({
   name: 'RoleOperateDrawer'
@@ -83,6 +84,18 @@ function closeDrawer() {
 async function handleSubmit() {
   await validate();
   // request
+  if (props.operateType === 'add') {
+    await createRole(model.value)
+  }
+
+  if (props.operateType === 'edit') {
+    if (props.rowData?.id) {
+      await updateRole(props.rowData.id, model.value)
+    } else {
+      console.error('roleId is null');
+    }
+  }
+
   window.$message?.success($t('common.updateSuccess'));
   closeDrawer();
   emit('submitted');

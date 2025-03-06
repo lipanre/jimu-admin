@@ -1,6 +1,6 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
-import { fetchGetRoleList } from '@/service/api';
+import {deleteRole, fetchGetRoleDetail, fetchGetRoleList} from '@/service/api';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { $t } from '@/locales';
@@ -116,20 +116,18 @@ const {
   onBatchDeleted,
   onDeleted
   // closeDrawer
-} = useTableOperate(data, getData);
+} = useTableOperate(data, getData, fetchGetRoleDetail);
 
 async function handleBatchDelete() {
   // request
-  console.log(checkedRowKeys.value);
-
-  onBatchDeleted();
+  await deleteRole(...checkedRowKeys.value)
+  await onBatchDeleted();
 }
 
-function handleDelete(id: string) {
+async function handleDelete(id: string) {
   // request
-  console.log(id);
-
-  onDeleted();
+  await deleteRole(id)
+  await onDeleted();
 }
 
 function edit(id: string) {

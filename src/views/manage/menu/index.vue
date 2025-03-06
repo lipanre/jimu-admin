@@ -199,7 +199,7 @@ async function handleEdit(item: Api.SystemManage.Menu) {
   operateType.value = 'edit';
 
   const detail = await fetchMenuDetail(item.id)
-  editingData.value = { ...detail.data };
+  editingData.value = detail.data;
 
   openModal();
 }

@@ -25,6 +25,57 @@ export function fetchGetRoleList(params?: Api.SystemManage.RoleSearchParams) {
   });
 }
 
+/**
+ * 获取角色详情
+ *
+ * @param id 角色id
+ */
+export function fetchGetRoleDetail(id: string) {
+  return request<Api.SystemManage.Role>({
+    url: `/role/${id}`,
+    method: 'get'
+  })
+}
+
+/**
+ * 创建角色
+ *
+ * @param role 角色对象
+ */
+export function createRole(role: Pick<Api.SystemManage.Role, 'roleName' | 'roleCode' | 'roleDesc' | 'status'>) {
+  return request<Boolean>({
+    url: "/role",
+    method: 'post',
+    data: role
+  })
+}
+
+/**
+ * 更新角色
+ *
+ * @param role 角色对象
+ */
+export function updateRole(id: string, role: Pick<Api.SystemManage.Role, 'roleName' | 'roleCode' | 'roleDesc' | 'status'>) {
+  return request<Boolean>({
+    url: `/role/${id}`,
+    method: 'put',
+    data: role
+  })
+}
+
+/**
+ * 删除角色列表
+ *
+ * @param roleIds 角色id列表
+ */
+export function deleteRole(...roleIds: string[]) {
+  return request<Boolean>({
+    url: '/role',
+    method: 'delete',
+    data: [...roleIds]
+  })
+}
+
 //////////////////////////////////////////// role end ////////////////////////////////
 
 

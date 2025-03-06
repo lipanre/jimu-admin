@@ -3,21 +3,9 @@ import { request } from '../request';
 
 //////////////////////////////////////////// role start ////////////////////////////////
 
-/**
- * get all roles
- *
- * these roles are all enabled
- */
-export function fetchGetAllRoles() {
-  return request<Api.SystemManage.AllRole[]>({
-    url: '/systemManage/getAllRoles',
-    method: 'get'
-  });
-}
-
 /** get role list */
 export function fetchGetRoleList(params?: Api.SystemManage.RoleSearchParams) {
-  return request<Api.SystemManage.RoleList>({
+  return request<Api.SystemManage.RoleList | Api.SystemManage.Role[]>({
     url: '/role',
     method: 'get',
     params
@@ -52,6 +40,7 @@ export function createRole(role: Pick<Api.SystemManage.Role, 'roleName' | 'roleC
 /**
  * 更新角色
  *
+ * @param id 角色id
  * @param role 角色对象
  */
 export function updateRole(id: string, role: Pick<Api.SystemManage.Role, 'roleName' | 'roleCode' | 'roleDesc' | 'status'>) {

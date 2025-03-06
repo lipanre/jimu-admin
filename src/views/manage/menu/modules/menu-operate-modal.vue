@@ -6,7 +6,7 @@ import { $t } from '@/locales';
 import { enableStatusOptions, menuIconTypeOptions, menuTypeOptions } from '@/constants/business';
 import SvgIcon from '@/components/custom/svg-icon.vue';
 import { getLocalIcons } from '@/utils/icon';
-import {fetchGetAllRoles, createMenu, updateMenu} from '@/service/api';
+import {createMenu, updateMenu, fetchGetRoleList} from '@/service/api';
 import {
   getLayoutAndPage,
   getPathParamFromRoutePath,
@@ -168,10 +168,10 @@ const layoutOptions: CommonType.Option[] = [
 const roleOptions = ref<CommonType.Option<string>[]>([]);
 
 async function getRoleOptions() {
-  const { error, data } = await fetchGetAllRoles();
+  const { error, data } = await fetchGetRoleList({} as any);
 
   if (!error) {
-    const options = data.map(item => ({
+    const options = data.map((item: any) => ({
       label: item.roleName,
       value: item.roleCode
     }));

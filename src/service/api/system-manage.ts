@@ -167,3 +167,72 @@ export function fetchGetMenuTree() {
 
 
 //////////////////////////////////////////// menu end ////////////////////////////////
+
+
+
+//////////////////////////////////////////// dict start ////////////////////////////////
+
+/**
+ * 创建字典
+ *
+ * @param dto
+ */
+export const createDict = (dto: Api.SystemManage.Dict) =>
+  request<boolean>({
+    url: '/dict',
+    method: 'post',
+    data: dto
+  })
+
+/**
+ * 分页查询字典列表
+ *
+ * @param dto 字典dto
+ */
+export const pageDict = (dto: Partial<Api.SystemManage.Dict>) =>
+  request<Api.SystemManage.PageDict>({
+    url: "/dict",
+    method: 'get',
+    params: dto
+  })
+
+/**
+ * 删除字典
+ *
+ * @param dictIds
+ */
+export const deleteDict = (dictIds: string[]) =>
+  request<boolean>({
+    url: "/dict",
+    method: 'delete',
+    data: [...dictIds]
+  })
+
+/**
+ * 查询字典详情
+ *
+ * @param dictId 字典id
+ */
+export const getDictDetail = (dictId: string) =>
+  request<Api.SystemManage.Dict & {details: Api.SystemManage.DictDetail[]}>({
+    url: `/dict/${dictId}`,
+    method: 'get',
+  })
+
+/**
+ * 更新字典
+ *
+ * @param dictId 字典id
+ * @param dto 字典dto
+ */
+export const updateDict = (dictId: string, dto: Partial<Api.SystemManage.Dict>) =>
+  request<boolean>({
+    url: `/dict/${dictId}`,
+    method: 'put',
+    data: dto
+  })
+
+
+//////////////////////////////////////////// dict end ////////////////////////////////
+
+

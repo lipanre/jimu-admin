@@ -166,6 +166,7 @@ const local: App.I18n.Schema = {
     manage: '系统管理',
     manage_menu: '菜单管理',
     manage_role: '角色管理',
+    manage_dict: '字典管理',
   },
   page: {
     manage: {

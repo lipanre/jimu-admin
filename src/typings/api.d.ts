@@ -191,5 +191,36 @@ declare namespace Api {
       parentId: number;
       children?: MenuTree[];
     };
+
+    type Dict = Common.CommonRecord<{
+      /**
+       * 字典code
+       */
+      code: string;
+
+      /**
+       * 字典名
+       */
+      name: string;
+
+      /**
+       * 字典描述
+       */
+      description: string;
+    }>
+
+    /** 字典查询参数 */
+    type DictSearchParams = CommonType.RecordNullable<
+      Pick<Api.SystemManage.Dict, 'code' | 'name'> & CommonSearchParams
+    >;
+    type PageDict = Common.PaginatingQueryRecord<Dict>
+
+    /**
+     * 字典明细
+     */
+    type DictDetail = Common.CommonRecord<{
+      dictKey: string;
+      dictValue: string;
+    }>
   }
 }

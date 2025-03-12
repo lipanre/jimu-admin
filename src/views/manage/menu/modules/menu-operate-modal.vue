@@ -6,7 +6,7 @@ import { $t } from '@/locales';
 import { enableStatusOptions, menuIconTypeOptions, menuTypeOptions } from '@/constants/business';
 import SvgIcon from '@/components/custom/svg-icon.vue';
 import { getLocalIcons } from '@/utils/icon';
-import {createMenu, updateMenu, fetchGetRoleList} from '@/service/api';
+import { createMenu, updateMenu, fetchGetRoleList, fetchGetAllRoleList } from '@/service/api';
 import {
   getLayoutAndPage,
   getPathParamFromRoutePath,
@@ -168,8 +168,7 @@ const layoutOptions: CommonType.Option[] = [
 const roleOptions = ref<CommonType.Option<string>[]>([]);
 
 async function getRoleOptions() {
-  const { error, data } = await fetchGetRoleList({} as any);
-
+  const { error, data } = await fetchGetAllRoleList({} as any);
   if (!error) {
     const options = data.map((item: any) => ({
       label: item.roleName,
@@ -441,7 +440,7 @@ watch(
                     class="flex-1"
                   />
                   <NInput
-                    v-model:value="value.desc"
+                    v-model:value="value.description"
                     :placeholder="$t('page.manage.menu.form.buttonDesc')"
                     class="flex-1"
                   />

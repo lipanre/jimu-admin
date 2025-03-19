@@ -7,6 +7,7 @@ import { enableStatusOptions } from '@/constants/business';
 import MenuAuthModal from './menu-auth-modal.vue';
 import ButtonAuthModal from './button-auth-modal.vue';
 import {createRole, updateRole} from "@/service/api";
+import { useDict } from '@/store/modules/dict';
 
 defineOptions({
   name: 'RoleOperateDrawer'
@@ -44,7 +45,7 @@ const title = computed(() => {
   return titles[props.operateType];
 });
 
-type Model = Pick<Api.SystemManage.Role, 'roleName' | 'roleCode' | 'roleDesc' | 'status'>;
+type Model = Pick<Api.SystemManage.Role, 'roleName' | 'roleCode' | 'roleDesc' | 'status' | 'dataScope'>;
 
 const model = ref(createDefaultModel());
 
@@ -53,6 +54,7 @@ function createDefaultModel(): Model {
     roleName: '',
     roleCode: '',
     roleDesc: '',
+    dataScope: '',
     status: null
   };
 }
@@ -123,6 +125,11 @@ watch(visible, () => {
           <NRadioGroup v-model:value="model.status">
             <NRadio v-for="item in enableStatusOptions" :key="item.value" :value="item.value" :label="$t(item.label)" />
           </NRadioGroup>
+        </NFormItem>
+        <NFormItem label="数据权限" path="dataScope">
+          <DictSelect v-model:value="model.dataScope"
+                      placeholder="请选择数据权限"
+                      dict-code="DATA_SCOPE" />
         </NFormItem>
         <NFormItem :label="$t('page.manage.role.roleDesc')" path="roleDesc">
           <NInput v-model:value="model.roleDesc" :placeholder="$t('page.manage.role.form.roleDesc')" />

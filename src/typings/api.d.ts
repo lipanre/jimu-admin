@@ -103,6 +103,8 @@ declare namespace Api {
       roleCode: string;
       /** role description */
       roleDesc: string;
+      /** 数据权限 */
+      dataScope: string;
     }>;
 
     /** role search params */
@@ -193,20 +195,17 @@ declare namespace Api {
     };
 
     type Dict = Common.CommonRecord<{
-      /**
-       * 字典code
-       */
+      // 字典code
       code: string;
 
-      /**
-       * 字典名
-       */
+      // 字典名
       name: string;
 
-      /**
-       * 字典描述
-       */
+      // 字典描述
       description: string;
+
+      // 字典明细
+      details?: DictDetail[]
     }>
 
     /** 字典查询参数 */

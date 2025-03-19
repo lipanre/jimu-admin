@@ -56,7 +56,7 @@ export function createRole(role: Pick<Api.SystemManage.Role, 'roleName' | 'roleC
  * @param id 角色id
  * @param role 角色对象
  */
-export function updateRole(id: string, role: Pick<Api.SystemManage.Role, 'roleName' | 'roleCode' | 'roleDesc' | 'status'>) {
+export function updateRole(id: string, role: Pick<Api.SystemManage.Role, 'roleName' | 'roleCode' | 'roleDesc' | 'status' | 'dataScope'>) {
   return request<Boolean>({
     url: `/role/${id}`,
     method: 'put',
@@ -98,7 +98,7 @@ export function fetchGetMenuList() {
 /** get all pages */
 export function fetchGetAllPages() {
   return request<string[]>({
-    url: '/system-manager/pages',
+    url: '/menu/pages',
     method: 'get'
   });
 }
@@ -230,6 +230,15 @@ export const updateDict = (dictId: string, dto: Partial<Api.SystemManage.Dict>) 
     url: `/dict/${dictId}`,
     method: 'put',
     data: dto
+  })
+
+/**
+ * 查询所有字典映射
+ */
+export const allDictMapping = () =>
+  request<Api.SystemManage.Dict[]>({
+    url: "/dict/all",
+    method: 'get',
   })
 
 

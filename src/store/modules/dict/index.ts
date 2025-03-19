@@ -12,20 +12,19 @@ export const useDict = defineStore(SetupStoreId.DICT, () => {
 
   const dictMapping = ref<DictMapping>({});
 
-  const initDict = async () => {
-    const { data } = await allDictMapping();
+  allDictMapping().then(res => {
     const mapping: DictMapping = {};
-    data?.forEach(dict => {
+    res.data?.forEach(dict => {
       if (dict?.details) {
         mapping[dict.code] = dict.details;
       }
     });
     dictMapping.value = mapping;
-  };
+  })
 
 
 
   return {
-    dictMapping,
+    dictMapping
   };
 });

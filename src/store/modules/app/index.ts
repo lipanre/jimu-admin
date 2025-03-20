@@ -10,6 +10,7 @@ import { localStg } from '@/utils/storage';
 import { useRouteStore } from '../route';
 import { useTabStore } from '../tab';
 import { useThemeStore } from '../theme';
+import {useDict} from "@/store/modules/dict";
 
 export const useAppStore = defineStore(SetupStoreId.App, () => {
   const themeStore = useThemeStore();
@@ -30,6 +31,8 @@ export const useAppStore = defineStore(SetupStoreId.App, () => {
 
   /** Is mobile layout */
   const isMobile = breakpoints.smaller('sm');
+
+  const { initDictMapping } = useDict()
 
   /**
    * Reload page
@@ -82,6 +85,7 @@ export const useAppStore = defineStore(SetupStoreId.App, () => {
 
   function init() {
     setDayjsLocale(locale.value);
+    initDictMapping()
   }
 
   // watch store

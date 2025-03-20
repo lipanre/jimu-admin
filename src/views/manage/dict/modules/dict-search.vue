@@ -45,7 +45,7 @@ interface Emits {
 
 const emit = defineEmits<Emits>()
 
-const model = defineModel<Api.SystemManage.DictSearchParams>()
+const model = defineModel<Api.SystemManage.DeptSearchParams>()
 
 const reset = () => emit('reset')
 const search = () => emit('search')

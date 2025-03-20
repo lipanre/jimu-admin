@@ -104,7 +104,7 @@ declare namespace Api {
       /** role description */
       roleDesc: string;
       /** 数据权限 */
-      dataScope: string;
+      dataScope: string | null;
     }>;
 
     /** role search params */
@@ -205,7 +205,7 @@ declare namespace Api {
       description: string;
 
       // 字典明细
-      details?: DictDetail[]
+      details?: DeptDetail[]
     }>
 
     /** 字典查询参数 */
@@ -221,5 +221,29 @@ declare namespace Api {
       dictKey: string;
       dictValue: string;
     }>
+
+
+
+    type Dept = Common.CommonRecord<{
+      /*部门名称*/
+      name: string;
+      /*父级部门id*/
+      parentId: string;
+      /*排序*/
+      sort: number;
+      /*负责人*/
+      chargePerson: string;
+      /*联系电话*/
+      phone: string;
+      /*邮箱*/
+      email: string;
+    }>
+
+    /** 字典查询参数 */
+    type DeptSearchParams = CommonType.RecordNullable<
+      Pick<Api.SystemManage.Dept, 'name'> & CommonSearchParams
+    >;
+    type PageDept = Common.PaginatingQueryRecord<Dept>
+
   }
 }

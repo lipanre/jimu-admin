@@ -5,7 +5,7 @@ import { nextTick, onBeforeMount, onMounted, reactive, ref } from 'vue';
 
 // 请求获取所有字典映射
 type DictMapping = {
-  [key: string]: Api.SystemManage.DictDetail[]
+  [key: string]: Api.SystemManage.DeptDetail[]
 }
 
 export const useDict = defineStore(SetupStoreId.DICT, () => {

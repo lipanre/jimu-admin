@@ -190,7 +190,7 @@ export const createDict = (dto: Api.SystemManage.Dict) =>
  * @param dto 字典dto
  */
 export const pageDict = (dto: Partial<Api.SystemManage.Dict>) =>
-  request<Api.SystemManage.PageDict>({
+  request<Api.SystemManage.PageDept>({
     url: "/dict",
     method: 'get',
     params: dto
@@ -214,7 +214,7 @@ export const deleteDict = (dictIds: string[]) =>
  * @param dictId 字典id
  */
 export const getDictDetail = (dictId: string) =>
-  request<Api.SystemManage.Dict & {details: Api.SystemManage.DictDetail[]}>({
+  request<Api.SystemManage.Dict & {details: Api.SystemManage.DeptDetail[]}>({
     url: `/dict/${dictId}`,
     method: 'get',
   })
@@ -243,5 +243,65 @@ export const allDictMapping = () =>
 
 
 //////////////////////////////////////////// dict end ////////////////////////////////
+//////////////////////////////////////////// dept start ////////////////////////////////
+export const fetchDept = () =>
+  request<Api.SystemManage.Dept[]>({
+    url: '/dept',
+    method: 'get',
+    params: {
+      current: 1,
+      size: -1,
+    }
+  })
+
+/**
+ * 获取部门详情
+ *
+ * @param deptId 部门id
+ */
+export const fetchDeptDetail = (deptId: string) =>
+  request<Api.SystemManage.Dept>({
+    url: `/dept/${deptId}`,
+    method: 'get',
+  })
+
+/**
+ * 创建部门
+ *
+ * @param dept 部门
+ */
+export const createDept = (dept: Api.SystemManage.Dept) =>
+  request<boolean>({
+    url: '/dept',
+    method: 'post',
+    data: dept
+  })
+
+/**
+ * 更新部门
+ *
+ * @param deptId 部门id
+ * @param dept 部门信息
+ */
+export const updateDept = (deptId: string, dept: Api.SystemManage.Dept) =>
+  request<boolean>({
+    url: `/dept/${deptId}`,
+    method: 'put',
+    data: dept
+  })
+
+/**
+ * 批量删除部门
+ *
+ * @param deptIds 部门id列表
+ */
+export const batchDeleteDept = (deptIds: string[]) =>
+  request<boolean>({
+    url: "/dept",
+    method: 'delete',
+    data: [...deptIds]
+  })
+
+//////////////////////////////////////////// dept end ////////////////////////////////
 
 

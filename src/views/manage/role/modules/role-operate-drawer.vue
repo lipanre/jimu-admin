@@ -54,8 +54,8 @@ function createDefaultModel(): Model {
     roleName: '',
     roleCode: '',
     roleDesc: '',
-    dataScope: '',
-    status: null
+    dataScope: null,
+    status: '1'
   };
 }
 
@@ -64,7 +64,8 @@ type RuleKey = Exclude<keyof Model, 'roleDesc'>;
 const rules: Record<RuleKey, App.Global.FormRule> = {
   roleName: defaultRequiredRule,
   roleCode: defaultRequiredRule,
-  status: defaultRequiredRule
+  status: defaultRequiredRule,
+  dataScope: defaultRequiredRule,
 };
 
 const roleId = computed(() => props.rowData?.id || -1);

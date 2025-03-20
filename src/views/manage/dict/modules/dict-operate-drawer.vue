@@ -62,7 +62,7 @@ interface Props {
   /** the type of operation */
   operateType: NaiveUI.TableOperateType;
   /** the edit row data */
-  rowData?: Api.SystemManage.Dict & { details: Api.SystemManage.DictDetail[] } | null;
+  rowData?: Api.SystemManage.Dict & { details: Api.SystemManage.DeptDetail[] } | null;
 }
 
 const props = defineProps<Props>();
@@ -88,7 +88,7 @@ const title = computed(() => {
   return titles[props.operateType];
 });
 
-type Model = Pick<Api.SystemManage.Dict, 'code' | 'name' | 'description'> & { details: Api.SystemManage.DictDetail[] };
+type Model = Pick<Api.SystemManage.Dict, 'code' | 'name' | 'description'> & { details: Api.SystemManage.DeptDetail[] };
 
 const model = ref(createDefaultModel());
 
@@ -142,7 +142,7 @@ async function handleSubmit() {
   emit('submitted');
 }
 
-const handleCreateDictDetail = (): Api.SystemManage.DictDetail => {
+const handleCreateDictDetail = (): Api.SystemManage.DeptDetail => {
   return {
     dictKey: '',
     dictValue: ''

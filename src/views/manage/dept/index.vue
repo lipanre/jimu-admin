@@ -3,7 +3,7 @@
     <NCard title="部门管理" :bordered="false" size="small" class="sm:flex-1-hidden card-wrapper">
       <template #header-extra>
         <TableHeaderOperation
-          v-model:columns="columns"
+          v-model:columns="columnChecks"
           :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
           @add="handleAdd"
@@ -22,15 +22,14 @@
         :loading="loading"
         :row-key="row => row.id"
         remote
-        :pagination="pagination"
         class="sm:h-full"
       />
 
       <DeptOperateModal
-        v-model:show="visible"
+        v-model:visible="visible"
         :operate-type="operateType"
         :row-data="editingData"
-        @submit="getData"
+        @submitted="getData"
       />
     </NCard>
   </div>
@@ -40,13 +39,13 @@
 
 
 import { useTable, useTableOperate } from '@/hooks/common/table';
-import { fetchDept, fetchDeptDetail, fetchMenuDetail } from '@/service/api';
+import { batchDeleteDept, fetchDept, fetchDeptDetail, fetchMenuDetail } from '@/service/api';
 import { $t } from '@/locales';
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { useAppStore } from '@/store/modules/app';
 import { type Ref, ref } from 'vue';
 import { useBoolean } from '~/packages/hooks';
-import DeptOperateModal from '@/views/manage/dept/modules/dept-operate-modal.vue';
+import DeptOperateModal, { OperateType } from '@/views/manage/dept/modules/dept-operate-modal.vue';
 
 defineOptions({
   name: "Dept",
@@ -114,11 +113,9 @@ const { columns, columnChecks, data, loading, pagination, getData, getDataByPage
       width: 230,
       render: row => (
         <div class="flex-center justify-end gap-8px">
-          {row.menuType === '1' && (
-            <NButton type="primary" ghost size="small" onClick={() => handleAddChildMenu(row)}>
-              {$t('page.manage.menu.addChildMenu')}
-            </NButton>
-          )}
+          <NButton type="primary" ghost size="small" onClick= {() => handleAddChild(row)}>
+            添加子部门
+          </NButton>
           <NButton type="primary" ghost size="small" onClick={() => handleEdit(row)}>
             {$t('common.edit')}
           </NButton>
@@ -147,19 +144,33 @@ const handleAdd = () => {
   openModal()
 }
 
-const handleBatchDelete = () => {
+const handleDelete = async (id: string) => {
+  await batchDeleteDept([id])
+  await onDeleted()
+}
 
+const handleBatchDelete = async () => {
+  await batchDeleteDept(checkedRowKeys.value)
+  await onBatchDeleted()
 }
 
 const editingData: Ref<Api.SystemManage.Menu | null> = ref(null);
-async function handleEdit(item: Api.SystemManage.Menu) {
+async function handleEdit(item: Api.SystemManage.Dept) {
   operateType.value = 'edit';
 
   const detail = await fetchDeptDetail(item.id)
   editingData.value = detail.data;
-
   openModal();
 }
+
+const handleAddChild = async (item: Api.SystemManage.Dept) => {
+  operateType.value = 'addChild'
+  editingData.value = item
+  openModal()
+
+  console.log("editingData", editingData)
+}
+
 
 </script>
 

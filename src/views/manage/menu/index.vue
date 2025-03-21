@@ -249,7 +249,6 @@ init();
         :loading="loading"
         :row-key="row => row.id"
         remote
-        :pagination="pagination"
         class="sm:h-full"
       />
       <MenuOperateModal

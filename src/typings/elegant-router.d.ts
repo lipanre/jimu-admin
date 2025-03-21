@@ -28,6 +28,7 @@ declare module "@elegant-router/types" {
     "manage_dict": "/manage/dict";
     "manage_menu": "/manage/menu";
     "manage_role": "/manage/role";
+    "manage_user": "/manage/user";
   };
 
   /**
@@ -92,6 +93,7 @@ declare module "@elegant-router/types" {
     | "manage_dict"
     | "manage_menu"
     | "manage_role"
+    | "manage_user"
   >;
 
   /**

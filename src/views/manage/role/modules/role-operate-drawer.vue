@@ -4,10 +4,9 @@ import { useBoolean } from '@sa/hooks';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { $t } from '@/locales';
 import { enableStatusOptions } from '@/constants/business';
+import { createRole, updateRole } from '@/service/api';
 import MenuAuthModal from './menu-auth-modal.vue';
 import ButtonAuthModal from './button-auth-modal.vue';
-import {createRole, updateRole} from "@/service/api";
-import { useDict } from '@/store/modules/dict';
 
 defineOptions({
   name: 'RoleOperateDrawer'
@@ -54,7 +53,7 @@ function createDefaultModel(): Model {
     roleName: '',
     roleCode: '',
     roleDesc: '',
-    dataScope: null,
+    dataScope: undefined,
     status: '1'
   };
 }
@@ -65,10 +64,10 @@ const rules: Record<RuleKey, App.Global.FormRule> = {
   roleName: defaultRequiredRule,
   roleCode: defaultRequiredRule,
   status: defaultRequiredRule,
-  dataScope: defaultRequiredRule,
+  dataScope: defaultRequiredRule
 };
 
-const roleId = computed(() => props.rowData?.id || -1);
+const roleId = computed(() => props.rowData?.id || '');
 
 const isEdit = computed(() => props.operateType === 'edit');
 
@@ -88,12 +87,12 @@ async function handleSubmit() {
   await validate();
   // request
   if (props.operateType === 'add') {
-    await createRole(model.value)
+    await createRole(model.value);
   }
 
   if (props.operateType === 'edit') {
     if (props.rowData?.id) {
-      await updateRole(props.rowData.id, model.value)
+      await updateRole(props.rowData.id, model.value);
     } else {
       console.error('roleId is null');
     }
@@ -128,9 +127,7 @@ watch(visible, () => {
           </NRadioGroup>
         </NFormItem>
         <NFormItem label="数据权限" path="dataScope">
-          <DictSelect v-model:value="model.dataScope"
-                      placeholder="请选择数据权限"
-                      dict-code="DATA_SCOPE" />
+          <DictSelect v-model:value="model.dataScope" placeholder="请选择数据权限" dict-code="DATA_SCOPE" />
         </NFormItem>
         <NFormItem :label="$t('page.manage.role.roleDesc')" path="roleDesc">
           <NInput v-model:value="model.roleDesc" :placeholder="$t('page.manage.role.form.roleDesc')" />

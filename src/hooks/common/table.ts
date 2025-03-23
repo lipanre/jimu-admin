@@ -213,7 +213,11 @@ export function useTable<A extends NaiveUI.TableApiFn>(config: NaiveUI.NaiveTabl
   };
 }
 
-export function useTableOperate<T extends TableData = TableData>(data: Ref<T[]>, getData: () => Promise<void>, getDataDetail: (id: T['id']) => Promise<any>) {
+export function useTableOperate<T extends TableData = TableData>(
+  data: Ref<T[]>,
+  getData: () => Promise<void>,
+  getDataDetail: (id: T['id']) => Promise<any>
+) {
   const { bool: drawerVisible, setTrue: openDrawer, setFalse: closeDrawer } = useBoolean();
 
   const operateType = ref<NaiveUI.TableOperateType>('add');
@@ -228,7 +232,7 @@ export function useTableOperate<T extends TableData = TableData>(data: Ref<T[]>,
 
   async function handleEdit(id: T['id']) {
     operateType.value = 'edit';
-    const findItem = await getDataDetail(id) || null;
+    const findItem = (await getDataDetail(id)) || null;
 
     editingData.value = jsonClone(findItem?.data);
 

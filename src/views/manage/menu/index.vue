@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import type { Ref } from 'vue';
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import { useBoolean } from '@sa/hooks';
-import {deleteMenu, fetchGetAllPages, fetchGetMenuList, fetchMenuDetail} from '@/service/api';
+import { deleteMenu, fetchGetAllPages, fetchGetMenuList, fetchMenuDetail } from '@/service/api';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import { $t } from '@/locales';
@@ -18,7 +18,7 @@ const { bool: visible, setTrue: openModal } = useBoolean();
 
 const wrapperRef = ref<HTMLElement | null>(null);
 
-const { columns, columnChecks, data, loading, pagination, getData, getDataByPage } = useTable({
+const { columns, columnChecks, data, loading, getData, getDataByPage } = useTable({
   apiFn: fetchGetMenuList,
   columns: () => [
     {
@@ -30,7 +30,7 @@ const { columns, columnChecks, data, loading, pagination, getData, getDataByPage
       key: 'id',
       title: $t('page.manage.menu.rowNumber'),
       align: 'center',
-      render: (_, index) => `${index + 1}`,
+      render: (_, index) => `${index + 1}`
     },
     {
       key: 'menuType',
@@ -171,7 +171,7 @@ const { columns, columnChecks, data, loading, pagination, getData, getDataByPage
   ]
 });
 
-const { checkedRowKeys, onBatchDeleted, onDeleted } = useTableOperate(data, getData);
+const { checkedRowKeys, onBatchDeleted, onDeleted } = useTableOperate(data, getData, fetchMenuDetail);
 
 const operateType = ref<OperateType>('add');
 
@@ -182,13 +182,13 @@ function handleAdd() {
 
 async function handleBatchDelete() {
   // request
-  await deleteMenu(...checkedRowKeys.value)
+  await deleteMenu(...checkedRowKeys.value);
   await onBatchDeleted();
 }
 
 async function handleDelete(id: string) {
   // request
-  await deleteMenu(id)
+  await deleteMenu(id);
   await onDeleted();
 }
 
@@ -197,10 +197,7 @@ const editingData: Ref<Api.SystemManage.Menu | null> = ref(null);
 
 async function handleEdit(item: Api.SystemManage.Menu) {
   operateType.value = 'edit';
-
-  const detail = await fetchMenuDetail(item.id)
-  editingData.value = detail.data;
-
+  editingData.value = item;
   openModal();
 }
 

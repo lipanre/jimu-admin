@@ -204,7 +204,7 @@ declare namespace Api {
       description: string;
 
       // 字典明细
-      details?: DeptDetail[];
+      details?: DictDetail[];
     }>;
 
     /** 字典查询参数 */
@@ -237,5 +237,38 @@ declare namespace Api {
     /** 字典查询参数 */
     type DeptSearchParams = CommonType.RecordNullable<Pick<Api.SystemManage.Dept, 'name'> & CommonSearchParams>;
     type PageDept = Common.PaginatingQueryRecord<Dept>;
+
+    /**
+     * user gender
+     *
+     * - "1": "male"
+     * - "2": "female"
+     */
+    type UserGender = '1' | '2';
+
+    /** user */
+    type User = Common.CommonRecord<{
+      /** user name */
+      userName: string;
+      /** user gender */
+      userGender: UserGender | null;
+      /** user nick name */
+      nickName: string;
+      /** user phone */
+      userPhone: string;
+      /** user email */
+      userEmail: string;
+      /** user role code collection */
+      userRoles: string[];
+    }>;
+
+    /** user search params */
+    type UserSearchParams = CommonType.RecordNullable<
+      Pick<Api.SystemManage.User, 'userName' | 'userGender' | 'nickName' | 'userPhone' | 'userEmail' | 'status'> &
+        CommonSearchParams
+    >;
+
+    /** user list */
+    type UserList = Common.PaginatingQueryRecord<User>;
   }
 }

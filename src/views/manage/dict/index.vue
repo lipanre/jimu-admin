@@ -1,46 +1,9 @@
-<template>
-  <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
-    <DictSearch v-model="searchParams" @reset="resetSearchParams" @search="getDataByPage"/>
-    <NCard title="字典列表" :bordered="false" size="small" class="sm:flex-1-hidden card-wrapper">
-      <template #header-extra>
-        <TableHeaderOperation
-          v-model:columns="columnChecks"
-          :disabled-delete="checkedRowKeys.length === 0"
-          :loading="loading"
-          @add="handleAdd"
-          @delete="() => handleBatchDelete(checkedRowKeys)"
-          @refresh="getData"
-        />
-      </template>
-      <NDataTable
-        v-model:checked-row-keys="checkedRowKeys"
-        :columns="columns"
-        :data="data"
-        size="small"
-        :flex-height="!appStore.isMobile"
-        :scroll-x="702"
-        :loading="loading"
-        remote
-        :row-key = "row => row.id"
-        :pagination="mobilePagination"
-        class="sm:h-full"
-      />
-      <DictOperateDrawer
-        v-model:visible="drawerVisible"
-        :operate-type="operateType"
-        :row-data="editingData"
-        @submitted="getDataByPage"
-      />
-    </NCard>
-  </div>
-</template>
-
 <script setup lang="tsx">
+import { NButton, NPopconfirm } from 'naive-ui';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
-import { deleteDict, fetchGetRoleDetail, getDictDetail, pageDict } from '@/service/api';
+import { deleteDict, getDictDetail, pageDict } from '@/service/api';
 import { $t } from '@/locales';
-import { NButton, NPopconfirm, NTag } from 'naive-ui';
 import DictSearch from '@/views/manage/dict/modules/dict-search.vue';
 import DictOperateDrawer from '@/views/manage/dict/modules/dict-operate-drawer.vue';
 
@@ -128,7 +91,7 @@ const {
 } = useTableOperate(data, getData, getDictDetail);
 
 
-const handleBatchDelete = async (ids: string[]) =>{
+const handleBatchDelete = async (ids: string[]) => {
   await deleteDict(ids)
   await onDeleted()
 }
@@ -136,7 +99,21 @@ const handleBatchDelete = async (ids: string[]) =>{
 
 
 </script>
+<template>
+  <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
+    <DictSearch v-model="searchParams" @reset="resetSearchParams" @search="getDataByPage" />
+    <NCard title="字典列表" :bordered="false" size="small" class="sm:flex-1-hidden card-wrapper">
+      <template #header-extra>
+        <TableHeaderOperation v-model:columns="columnChecks" :disabled-delete="checkedRowKeys.length === 0"
+          :loading="loading" @add="handleAdd" @delete="() => handleBatchDelete(checkedRowKeys)" @refresh="getData" />
+      </template>
+      <NDataTable v-model:checked-row-keys="checkedRowKeys" :columns="columns" :data="data" size="small"
+        :flex-height="!appStore.isMobile" :scroll-x="702" :loading="loading" remote :row-key="row => row.id"
+        :pagination="mobilePagination" class="sm:h-full" />
+      <DictOperateDrawer v-model:visible="drawerVisible" :operate-type="operateType" :row-data="editingData"
+        @submitted="getDataByPage" />
+    </NCard>
+  </div>
+</template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

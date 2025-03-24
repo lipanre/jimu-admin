@@ -1,7 +1,6 @@
 import { request } from '../request';
 
-
-//////////////////////////////////////////// role start ////////////////////////////////
+/// ///////////////////////////////////////// role start ////////////////////////////////
 
 /** get role list */
 export function fetchGetRoleList(params?: Api.SystemManage.RoleSearchParams) {
@@ -34,7 +33,7 @@ export function fetchGetRoleDetail(id: string) {
   return request<Api.SystemManage.Role>({
     url: `/role/${id}`,
     method: 'get'
-  })
+  });
 }
 
 /**
@@ -43,11 +42,11 @@ export function fetchGetRoleDetail(id: string) {
  * @param role 角色对象
  */
 export function createRole(role: Pick<Api.SystemManage.Role, 'roleName' | 'roleCode' | 'roleDesc' | 'status'>) {
-  return request<Boolean>({
-    url: "/role",
+  return request<boolean>({
+    url: '/role',
     method: 'post',
     data: role
-  })
+  });
 }
 
 /**
@@ -56,12 +55,15 @@ export function createRole(role: Pick<Api.SystemManage.Role, 'roleName' | 'roleC
  * @param id 角色id
  * @param role 角色对象
  */
-export function updateRole(id: string, role: Pick<Api.SystemManage.Role, 'roleName' | 'roleCode' | 'roleDesc' | 'status' | 'dataScope'>) {
-  return request<Boolean>({
+export function updateRole(
+  id: string,
+  role: Pick<Api.SystemManage.Role, 'roleName' | 'roleCode' | 'roleDesc' | 'status' | 'dataScope'>
+) {
+  return request<boolean>({
     url: `/role/${id}`,
     method: 'put',
     data: role
-  })
+  });
 }
 
 /**
@@ -70,18 +72,16 @@ export function updateRole(id: string, role: Pick<Api.SystemManage.Role, 'roleNa
  * @param roleIds 角色id列表
  */
 export function deleteRole(...roleIds: string[]) {
-  return request<Boolean>({
+  return request<boolean>({
     url: '/role',
     method: 'delete',
     data: [...roleIds]
-  })
+  });
 }
 
-//////////////////////////////////////////// role end ////////////////////////////////
+/// ///////////////////////////////////////// role end ////////////////////////////////
 
-
-//////////////////////////////////////////// menu start ////////////////////////////////
-
+/// ///////////////////////////////////////// menu start ////////////////////////////////
 
 /** get menu list */
 export function fetchGetMenuList() {
@@ -109,11 +109,11 @@ export function fetchGetAllPages() {
  * @param menu 菜单
  */
 export function createMenu(menu: any) {
-  return request<Boolean>({
-    url: "/menu",
-    method: "post",
+  return request<boolean>({
+    url: '/menu',
+    method: 'post',
     data: menu
-  })
+  });
 }
 
 /**
@@ -123,11 +123,11 @@ export function createMenu(menu: any) {
  * @param menu 菜单对象
  */
 export function updateMenu(id: string, menu: Api.SystemManage.Menu) {
-  return request<Boolean>({
+  return request<boolean>({
     url: `/menu/${id}`,
-    method: "put",
+    method: 'put',
     data: menu
-  })
+  });
 }
 
 /**
@@ -136,12 +136,10 @@ export function updateMenu(id: string, menu: Api.SystemManage.Menu) {
  * @param id 菜单id
  */
 export function fetchMenuDetail(id: string) {
-  return request<Api.SystemManage.Menu>(
-    {
-      url: `/menu/${id}`,
-      method: 'get'
-    }
-  )
+  return request<Api.SystemManage.Menu>({
+    url: `/menu/${id}`,
+    method: 'get'
+  });
 }
 
 /**
@@ -150,27 +148,24 @@ export function fetchMenuDetail(id: string) {
  * @param menuIds 菜单id列表
  */
 export function deleteMenu(...menuIds: string[]) {
-  return request<Boolean>({
+  return request<boolean>({
     url: `/menu`,
-    method: "delete",
+    method: 'delete',
     data: [...menuIds]
-  })
+  });
 }
 
 /** get menu tree */
 export function fetchGetMenuTree() {
   return request<Api.SystemManage.MenuTree[]>({
     url: '/menu',
-    method: 'get',
+    method: 'get'
   });
 }
 
+/// ///////////////////////////////////////// menu end ////////////////////////////////
 
-//////////////////////////////////////////// menu end ////////////////////////////////
-
-
-
-//////////////////////////////////////////// dict start ////////////////////////////////
+/// ///////////////////////////////////////// dict start ////////////////////////////////
 
 /**
  * 创建字典
@@ -182,7 +177,7 @@ export const createDict = (dto: Api.SystemManage.Dict) =>
     url: '/dict',
     method: 'post',
     data: dto
-  })
+  });
 
 /**
  * 分页查询字典列表
@@ -191,10 +186,10 @@ export const createDict = (dto: Api.SystemManage.Dict) =>
  */
 export const pageDict = (dto: Partial<Api.SystemManage.Dict>) =>
   request<Api.SystemManage.PageDept>({
-    url: "/dict",
+    url: '/dict',
     method: 'get',
     params: dto
-  })
+  });
 
 /**
  * 删除字典
@@ -203,10 +198,10 @@ export const pageDict = (dto: Partial<Api.SystemManage.Dict>) =>
  */
 export const deleteDict = (dictIds: string[]) =>
   request<boolean>({
-    url: "/dict",
+    url: '/dict',
     method: 'delete',
     data: [...dictIds]
-  })
+  });
 
 /**
  * 查询字典详情
@@ -214,10 +209,10 @@ export const deleteDict = (dictIds: string[]) =>
  * @param dictId 字典id
  */
 export const getDictDetail = (dictId: string) =>
-  request<Api.SystemManage.Dict & {details: Api.SystemManage.DeptDetail[]}>({
+  request<Api.SystemManage.Dict & { details: Api.SystemManage.DictDetail[] }>({
     url: `/dict/${dictId}`,
-    method: 'get',
-  })
+    method: 'get'
+  });
 
 /**
  * 更新字典
@@ -230,29 +225,26 @@ export const updateDict = (dictId: string, dto: Partial<Api.SystemManage.Dict>) 
     url: `/dict/${dictId}`,
     method: 'put',
     data: dto
-  })
+  });
 
-/**
- * 查询所有字典映射
- */
+/** 查询所有字典映射 */
 export const allDictMapping = () =>
   request<Api.SystemManage.Dict[]>({
-    url: "/dict/all",
-    method: 'get',
-  })
+    url: '/dict/all',
+    method: 'get'
+  });
 
-
-//////////////////////////////////////////// dict end ////////////////////////////////
-//////////////////////////////////////////// dept start ////////////////////////////////
+/// ///////////////////////////////////////// dict end ////////////////////////////////
+/// ///////////////////////////////////////// dept start ////////////////////////////////
 export const fetchDept = () =>
   request<Api.SystemManage.Dept[]>({
     url: '/dept',
     method: 'get',
     params: {
       current: 1,
-      size: -1,
+      size: -1
     }
-  })
+  });
 
 /**
  * 获取部门详情
@@ -262,8 +254,8 @@ export const fetchDept = () =>
 export const fetchDeptDetail = (deptId: string) =>
   request<Api.SystemManage.Dept>({
     url: `/dept/${deptId}`,
-    method: 'get',
-  })
+    method: 'get'
+  });
 
 /**
  * 创建部门
@@ -275,7 +267,7 @@ export const createDept = (dept: Api.SystemManage.Dept) =>
     url: '/dept',
     method: 'post',
     data: dept
-  })
+  });
 
 /**
  * 更新部门
@@ -288,7 +280,7 @@ export const updateDept = (deptId: string, dept: Api.SystemManage.Dept) =>
     url: `/dept/${deptId}`,
     method: 'put',
     data: dept
-  })
+  });
 
 /**
  * 批量删除部门
@@ -297,11 +289,20 @@ export const updateDept = (deptId: string, dept: Api.SystemManage.Dept) =>
  */
 export const batchDeleteDept = (deptIds: string[]) =>
   request<boolean>({
-    url: "/dept",
+    url: '/dept',
     method: 'delete',
     data: [...deptIds]
-  })
+  });
 
-//////////////////////////////////////////// dept end ////////////////////////////////
-
-
+/**
+ * 分页查询用户列表
+ *
+ * @param params
+ * @returns
+ */
+export const fetchGetUserList = (params: Api.SystemManage.UserSearchParams) =>
+  request<Api.SystemManage.User>({
+    url: '/user',
+    method: 'get',
+    params
+  });

@@ -301,8 +301,18 @@ export const batchDeleteDept = (deptIds: string[]) =>
  * @returns
  */
 export const fetchGetUserList = (params: Api.SystemManage.UserSearchParams) =>
-  request<Api.SystemManage.User>({
+  request<Api.SystemManage.UserList>({
     url: '/user',
     method: 'get',
     params
+  });
+
+/**
+ * @param userId 用户id
+ * @returns
+ */
+export const getUserDetail = (userId: string) =>
+  request<Api.SystemManage.User>({
+    url: `/user/${userId}`,
+    method: 'get'
   });

@@ -41,7 +41,7 @@ const title = computed(() => {
 
 type Model = Pick<
   Api.SystemManage.User,
-  'userName' | 'userGender' | 'nickName' | 'userPhone' | 'userEmail' | 'userRoles' | 'status'
+  'userName' | 'gender' | 'nickName' | 'phone' | 'email' | 'userRoles' | 'status'
 >;
 
 const model = ref(createDefaultModel());
@@ -49,10 +49,10 @@ const model = ref(createDefaultModel());
 function createDefaultModel(): Model {
   return {
     userName: '',
-    userGender: null,
+    gender: null,
     nickName: '',
-    userPhone: '',
-    userEmail: '',
+    phone: '',
+    email: '',
     userRoles: [],
     status: null
   };
@@ -72,20 +72,12 @@ async function getRoleOptions() {
   const { error, data } = await fetchGetRoleList();
 
   if (!error) {
-    const options = data.records.map(item => ({
+    const options = data.map(item => ({
       label: item.roleName,
-      value: item.roleCode
+      value: item.id
     }));
 
-    // the mock data does not have the roleCode, so fill it
-    // if the real request, remove the following code
-    const userRoleOptions = model.value.userRoles.map(item => ({
-      label: item,
-      value: item
-    }));
-    // end
-
-    roleOptions.value = [...userRoleOptions, ...options];
+    roleOptions.value = [...options];
   }
 }
 
@@ -126,7 +118,7 @@ watch(visible, () => {
           <NInput v-model:value="model.userName" :placeholder="$t('page.manage.user.form.userName')" />
         </NFormItem>
         <NFormItem :label="$t('page.manage.user.userGender')" path="userGender">
-          <NRadioGroup v-model:value="model.userGender">
+          <NRadioGroup v-model:value="model.gender">
             <NRadio v-for="item in userGenderOptions" :key="item.value" :value="item.value" :label="$t(item.label)" />
           </NRadioGroup>
         </NFormItem>
@@ -134,10 +126,10 @@ watch(visible, () => {
           <NInput v-model:value="model.nickName" :placeholder="$t('page.manage.user.form.nickName')" />
         </NFormItem>
         <NFormItem :label="$t('page.manage.user.userPhone')" path="userPhone">
-          <NInput v-model:value="model.userPhone" :placeholder="$t('page.manage.user.form.userPhone')" />
+          <NInput v-model:value="model.phone" :placeholder="$t('page.manage.user.form.userPhone')" />
         </NFormItem>
         <NFormItem :label="$t('page.manage.user.userEmail')" path="email">
-          <NInput v-model:value="model.userEmail" :placeholder="$t('page.manage.user.form.userEmail')" />
+          <NInput v-model:value="model.email" :placeholder="$t('page.manage.user.form.userEmail')" />
         </NFormItem>
         <NFormItem :label="$t('page.manage.user.userStatus')" path="status">
           <NRadioGroup v-model:value="model.status">

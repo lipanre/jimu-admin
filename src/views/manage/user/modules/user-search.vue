@@ -58,7 +58,7 @@ async function search() {
               class="pr-24px"
             >
               <NSelect
-                v-model:value="model.userGender"
+                v-model:value="model.gender"
                 :placeholder="$t('page.manage.user.form.userGender')"
                 :options="translateOptions(userGenderOptions)"
                 clearable
@@ -68,10 +68,10 @@ async function search() {
               <NInput v-model:value="model.nickName" :placeholder="$t('page.manage.user.form.nickName')" />
             </NFormItemGi>
             <NFormItemGi span="24 s:12 m:6" :label="$t('page.manage.user.userPhone')" path="userPhone" class="pr-24px">
-              <NInput v-model:value="model.userPhone" :placeholder="$t('page.manage.user.form.userPhone')" />
+              <NInput v-model:value="model.phone" :placeholder="$t('page.manage.user.form.userPhone')" />
             </NFormItemGi>
             <NFormItemGi span="24 s:12 m:6" :label="$t('page.manage.user.userEmail')" path="userEmail" class="pr-24px">
-              <NInput v-model:value="model.userEmail" :placeholder="$t('page.manage.user.form.userEmail')" />
+              <NInput v-model:value="model.email" :placeholder="$t('page.manage.user.form.userEmail')" />
             </NFormItemGi>
             <NFormItemGi
               span="24 s:12 m:6"

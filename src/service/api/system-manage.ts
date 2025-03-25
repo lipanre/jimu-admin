@@ -4,20 +4,7 @@ import { request } from '../request';
 
 /** get role list */
 export function fetchGetRoleList(params?: Api.SystemManage.RoleSearchParams) {
-  return request<Api.SystemManage.RoleList>({
-    url: '/role',
-    method: 'get',
-    params
-  });
-}
-
-/**
- * 获取所有角色列表
- *
- * @param params
- */
-export function fetchGetAllRoleList(params?: Pick<Api.SystemManage.Role, 'roleName' | 'roleCode' | 'status'>) {
-  return request<Api.SystemManage.Role[]>({
+  return request<Api.SystemManage.RoleList & Api.SystemManage.Role[]>({
     url: '/role',
     method: 'get',
     params

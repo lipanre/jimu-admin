@@ -6,7 +6,7 @@ import { $t } from '@/locales';
 import { enableStatusOptions, menuIconTypeOptions, menuTypeOptions } from '@/constants/business';
 import SvgIcon from '@/components/custom/svg-icon.vue';
 import { getLocalIcons } from '@/utils/icon';
-import { createMenu, updateMenu, fetchGetRoleList, fetchGetAllRoleList } from '@/service/api';
+import { createMenu, fetchGetRoleList, updateMenu } from '@/service/api';
 import {
   getLayoutAndPage,
   getPathParamFromRoutePath,
@@ -168,7 +168,7 @@ const layoutOptions: CommonType.Option[] = [
 const roleOptions = ref<CommonType.Option<string>[]>([]);
 
 async function getRoleOptions() {
-  const { error, data } = await fetchGetAllRoleList({} as any);
+  const { error, data } = await fetchGetRoleList();
   if (!error) {
     const options = data.map((item: any) => ({
       label: item.roleName,
@@ -253,15 +253,13 @@ async function handleSubmit() {
 
   const params = getSubmitParams();
 
-  console.log('params: ', params);
-
   // request
-  if (props.operateType == 'add' || props.operateType == 'addChild') {
-    await createMenu(params)
+  if (props.operateType === 'add' || props.operateType === 'addChild') {
+    await createMenu(params);
   }
 
-  if (props.operateType == 'edit') {
-    await updateMenu(params.id, params)
+  if (props.operateType === 'edit') {
+    await updateMenu(params.id, params);
   }
   window.$message?.success($t('common.updateSuccess'));
   closeDrawer();
@@ -464,7 +462,7 @@ watch(
     <template #footer>
       <NSpace justify="end" :size="16">
         <NButton @click="closeDrawer">{{ $t('common.cancel') }}</NButton>
-        <NButton type="primary" @click  ="handleSubmit">{{ $t('common.confirm') }}</NButton>
+        <NButton type="primary" @click="handleSubmit">{{ $t('common.confirm') }}</NButton>
       </NSpace>
     </template>
   </NModal>

@@ -1,6 +1,6 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
-import { fetchGetUserList, getUserDetail } from '@/service/api';
+import { batchDeleteUser, fetchGetUserList, getUserDetail } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { enableStatusRecord, userGenderRecord } from '@/constants/business';
@@ -151,15 +151,13 @@ const {
 
 async function handleBatchDelete() {
   // request
-  console.log(checkedRowKeys.value);
-
+  await batchDeleteUser(...checkedRowKeys.value);
   onBatchDeleted();
 }
 
-function handleDelete(id: string) {
+async function handleDelete(id: string) {
   // request
-  console.log(id);
-
+  await batchDeleteUser(id);
   onDeleted();
 }
 

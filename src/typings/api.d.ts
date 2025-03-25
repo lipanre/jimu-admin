@@ -219,7 +219,7 @@ declare namespace Api {
       dictValue: string;
     }>;
 
-    type Dept = Common.CommonRecord<{
+    type Dept = {
       /* 部门名称 */
       name: string;
       /* 父级部门id */
@@ -232,7 +232,7 @@ declare namespace Api {
       phone: string;
       /* 邮箱 */
       email: string;
-    }>;
+    };
 
     /** 字典查询参数 */
     type DeptSearchParams = CommonType.RecordNullable<Pick<Api.SystemManage.Dept, 'name'> & CommonSearchParams>;
@@ -259,7 +259,11 @@ declare namespace Api {
       /** user email */
       email: string;
       /** user role code collection */
-      userRoles: string[];
+      roleIds: string[];
+      /* 用户所属部门id */
+      deptId: string;
+      /* 密码 */
+      password: string;
     }>;
 
     /** user search params */

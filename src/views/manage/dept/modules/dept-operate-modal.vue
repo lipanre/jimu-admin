@@ -1,3 +1,102 @@
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue';
+import { $t } from '@/locales';
+import { useFormRules, useNaiveForm } from '@/hooks/common/form';
+import { createDept, updateDept } from '@/service/api';
+
+export type OperateType = NaiveUI.TableOperateType | 'addChild';
+
+interface Props {
+  /** the type of operation */
+  operateType: OperateType;
+  /** the edit menu data or the parent menu data when adding a child menu */
+  rowData?: Api.Common.CommonRecord<Api.SystemManage.Dept> | null;
+}
+
+const props = defineProps<Props>();
+
+interface Emits {
+  (e: 'submitted'): void;
+}
+
+const emit = defineEmits<Emits>();
+
+const visible = defineModel<boolean>('visible', {
+  default: false
+});
+
+const { formRef, validate, restoreValidation } = useNaiveForm();
+const { defaultRequiredRule, patternRules } = useFormRules();
+
+const title = computed(() => {
+  const titles: Record<OperateType, string> = {
+    add: '新增部门',
+    addChild: '新增子部门',
+    edit: '编辑部门'
+  };
+  return titles[props.operateType];
+});
+
+const createDefaultModel = (): Api.SystemManage.Dept => ({
+  name: '',
+  parentId: '0',
+  sort: 0,
+  chargePerson: '',
+  phone: '',
+  email: ''
+});
+const model = ref<Api.SystemManage.Dept>(createDefaultModel());
+
+type RuleKey = Extract<Api.SystemManage.Dept, 'name'>;
+
+const rules: Record<RuleKey, App.Global.FormRule> = {
+  name: defaultRequiredRule,
+  phone: patternRules.phone,
+  email: patternRules.email
+};
+
+function closeDrawer() {
+  visible.value = false;
+}
+
+async function handleSubmit() {
+  await validate();
+
+  const params = model.value;
+
+  // request
+  if (props.operateType === 'add') {
+    await createDept(params);
+  }
+
+  if (props.operateType === 'addChild') {
+    if (props.rowData?.id) {
+      await createDept({ ...params, parentId: props.rowData?.id });
+    }
+  }
+
+  if (props.operateType === 'edit') {
+    if (params.id) {
+      const { error } = await updateDept(params.id, params);
+      if (!error) {
+        window.$message?.success($t('common.updateSuccess'));
+      }
+    }
+  }
+  closeDrawer();
+  emit('submitted');
+}
+
+watch(visible, value => {
+  if (value) {
+    restoreValidation();
+    if (props.operateType === 'add' || props.operateType === 'addChild') {
+      model.value = createDefaultModel();
+    }
+  }
+});
+</script>
+
 <template>
   <NModal v-model:show="visible" :title="title" preset="card" class="w-500px">
     <NForm ref="formRef" :model="model" :rules="rules" label-placement="left" label-width="80">
@@ -31,111 +130,4 @@
   </NModal>
 </template>
 
-<script setup lang="ts">
-
-import { computed, ref, watch } from 'vue';
-import { $t } from '@/locales';
-import { useFormRules, useNaiveForm } from '@/hooks/common/form';
-import { createDept, createMenu, fetchDeptDetail, updateDept, updateMenu } from '@/service/api';
-import { getRoutePathWithParam, transformLayoutAndPageToComponent } from '@/views/manage/menu/modules/shared';
-
-export type OperateType = NaiveUI.TableOperateType | 'addChild';
-
-interface Props {
-  /** the type of operation */
-  operateType: OperateType;
-  /** the edit menu data or the parent menu data when adding a child menu */
-  rowData?: Api.SystemManage.Menu | null;
-}
-
-const props = defineProps<Props>();
-
-interface Emits {
-  (e: 'submitted'): void;
-}
-
-const emit = defineEmits<Emits>();
-
-const visible = defineModel<boolean>('visible', {
-  default: false
-});
-
-const { formRef, validate, restoreValidation } = useNaiveForm();
-const { defaultRequiredRule, patternRules } = useFormRules();
-
-const title = computed(() => {
-  const titles: Record<OperateType, string> = {
-    add: '新增部门',
-    addChild: '新增子部门',
-    edit: '编辑部门'
-  };
-  return titles[props.operateType];
-});
-
-const createDefaultModel = (): Api.SystemManage.Dept => ({
-  name: '',
-  parentId: '0',
-  sort: 0,
-  chargePerson: null,
-  phone: '',
-  email: ''
-});
-const model = ref<Api.SystemManage.Dept>(createDefaultModel());
-
-
-type RuleKey = Extract<ReturnType<createDefaultModel>, 'name'>;
-
-const rules: Record<RuleKey, App.Global.FormRule> = {
-  name: defaultRequiredRule,
-  phone: patternRules.phone,
-  email: patternRules.email,
-};
-
-function closeDrawer() {
-  visible.value = false;
-}
-
-async function handleSubmit() {
-  await validate();
-
-  const params = model.value;
-
-  console.log('params: ', params);
-
-  // request
-  if (props.operateType == 'add') {
-    await createDept(params);
-  }
-
-  if (props.operateType == 'addChild') {
-    await createDept({...params, parentId: props.rowData?.id})
-  }
-
-  if (props.operateType == 'edit') {
-    const { error } = await updateDept(params.id, params);
-    if (!error) {
-      window.$message?.success($t('common.updateSuccess'));
-    }
-  }
-  closeDrawer();
-  emit('submitted');
-}
-
-watch(visible, (value) => {
-  if (value) {
-    restoreValidation();
-    if (props.operateType == 'add' || props.operateType == 'addChild') {
-      model.value = createDefaultModel()
-    }
-    if (props.operateType === 'edit') {
-      model.value = props.rowData
-    }
-  }
-});
-
-
-</script>
-
-<style scoped>
-
-</style>
+<style scoped></style>

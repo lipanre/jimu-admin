@@ -224,7 +224,7 @@ export const allDictMapping = () =>
 /// ///////////////////////////////////////// dict end ////////////////////////////////
 /// ///////////////////////////////////////// dept start ////////////////////////////////
 export const fetchDept = () =>
-  request<Api.SystemManage.Dept[]>({
+  request<Api.SystemManage.PageDept>({
     url: '/dept',
     method: 'get',
     params: {
@@ -274,7 +274,7 @@ export const updateDept = (deptId: string, dept: Api.SystemManage.Dept) =>
  *
  * @param deptIds 部门id列表
  */
-export const batchDeleteDept = (deptIds: string[]) =>
+export const batchDeleteDept = (...deptIds: string[]) =>
   request<boolean>({
     url: '/dept',
     method: 'delete',
@@ -302,4 +302,44 @@ export const getUserDetail = (userId: string) =>
   request<Api.SystemManage.User>({
     url: `/user/${userId}`,
     method: 'get'
+  });
+
+/**
+ * 批量删除用户列表
+ *
+ * @param userIds 用户id列表
+ * @returns
+ */
+export const batchDeleteUser = (...userIds: string[]) =>
+  request<boolean>({
+    url: '/user',
+    method: 'delete',
+    data: [...userIds]
+  });
+
+/**
+ * 更新用户信息
+ *
+ * @param userId 用户id
+ * @param dto 用户dto
+ * @returns
+ */
+export const updateUser = (userId: string, dto: Partial<Api.SystemManage.User>) =>
+  request<boolean>({
+    url: `/user/${userId}`,
+    method: 'put',
+    data: dto
+  });
+
+/**
+ * 创建用户
+ *
+ * @param dto 用户dto
+ * @returns true - 成功 <br> false - 失败
+ */
+export const createUser = (dto: Partial<Api.SystemManage.User>) =>
+  request<boolean>({
+    url: '/user',
+    method: 'post',
+    data: dto
   });

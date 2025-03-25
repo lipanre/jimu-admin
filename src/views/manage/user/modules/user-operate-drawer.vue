@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
-import { fetchGetRoleList } from '@/service/api';
+import { createUser, fetchGetRoleList, updateUser } from '@/service/api';
 import { $t } from '@/locales';
 import { enableStatusOptions, userGenderOptions } from '@/constants/business';
 
@@ -29,7 +29,7 @@ const visible = defineModel<boolean>('visible', {
 });
 
 const { formRef, validate, restoreValidation } = useNaiveForm();
-const { defaultRequiredRule } = useFormRules();
+const { defaultRequiredRule, patternRules } = useFormRules();
 
 const title = computed(() => {
   const titles: Record<NaiveUI.TableOperateType, string> = {
@@ -41,7 +41,7 @@ const title = computed(() => {
 
 type Model = Pick<
   Api.SystemManage.User,
-  'userName' | 'gender' | 'nickName' | 'phone' | 'email' | 'userRoles' | 'status'
+  'userName' | 'gender' | 'nickName' | 'phone' | 'email' | 'roleIds' | 'status' | 'deptId' | 'password'
 >;
 
 const model = ref(createDefaultModel());
@@ -53,16 +53,22 @@ function createDefaultModel(): Model {
     nickName: '',
     phone: '',
     email: '',
-    userRoles: [],
-    status: null
+    roleIds: [],
+    status: null,
+    deptId: '',
+    password: ''
   };
 }
 
-type RuleKey = Extract<keyof Model, 'userName' | 'status'>;
+type RuleKey = Extract<keyof Model, 'userName' | 'status' | 'phone' | 'email' | 'deptId' | 'password'>;
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
   userName: defaultRequiredRule,
-  status: defaultRequiredRule
+  status: defaultRequiredRule,
+  phone: patternRules.phone,
+  email: patternRules.email,
+  deptId: defaultRequiredRule,
+  password: patternRules.pwd
 };
 
 /** the enabled role options */
@@ -96,7 +102,14 @@ function closeDrawer() {
 async function handleSubmit() {
   await validate();
   // request
-  window.$message?.success($t('common.updateSuccess'));
+  if (props.operateType === 'edit' && props.rowData?.id) {
+    await updateUser(props.rowData?.id, model.value);
+    window.$message?.success($t('common.updateSuccess'));
+  }
+
+  if (props.operateType === 'add') {
+    await createUser(model.value);
+  }
   closeDrawer();
   emit('submitted');
 }
@@ -117,6 +130,17 @@ watch(visible, () => {
         <NFormItem :label="$t('page.manage.user.userName')" path="userName">
           <NInput v-model:value="model.userName" :placeholder="$t('page.manage.user.form.userName')" />
         </NFormItem>
+        <NFormItem label="密码" path="password">
+          <NInput
+            v-model:value="model.password"
+            type="password"
+            placeholder="请输入密码"
+            show-password-on="mousedown"
+            maxlength="16"
+            show-count
+            clearable
+          />
+        </NFormItem>
         <NFormItem :label="$t('page.manage.user.userGender')" path="userGender">
           <NRadioGroup v-model:value="model.gender">
             <NRadio v-for="item in userGenderOptions" :key="item.value" :value="item.value" :label="$t(item.label)" />
@@ -125,7 +149,7 @@ watch(visible, () => {
         <NFormItem :label="$t('page.manage.user.nickName')" path="nickName">
           <NInput v-model:value="model.nickName" :placeholder="$t('page.manage.user.form.nickName')" />
         </NFormItem>
-        <NFormItem :label="$t('page.manage.user.userPhone')" path="userPhone">
+        <NFormItem :label="$t('page.manage.user.userPhone')" path="phone">
           <NInput v-model:value="model.phone" :placeholder="$t('page.manage.user.form.userPhone')" />
         </NFormItem>
         <NFormItem :label="$t('page.manage.user.userEmail')" path="email">
@@ -136,9 +160,12 @@ watch(visible, () => {
             <NRadio v-for="item in enableStatusOptions" :key="item.value" :value="item.value" :label="$t(item.label)" />
           </NRadioGroup>
         </NFormItem>
+        <NFormItem label="所属部门" path="deptId">
+          <DeptSelect v-model:dept-id="model.deptId" />
+        </NFormItem>
         <NFormItem :label="$t('page.manage.user.userRole')" path="roles">
           <NSelect
-            v-model:value="model.userRoles"
+            v-model:value="model.roleIds"
             multiple
             :options="roleOptions"
             :placeholder="$t('page.manage.user.form.userRole')"

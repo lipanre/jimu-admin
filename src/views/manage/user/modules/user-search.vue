@@ -86,6 +86,9 @@ async function search() {
                 clearable
               />
             </NFormItemGi>
+
+            <NFormItemGi spane="24 s:12 m:6" label="所属部门"></NFormItemGi>
+
             <NFormItemGi span="24 m:12" class="pr-24px">
               <NSpace class="w-full" justify="end">
                 <NButton @click="reset">

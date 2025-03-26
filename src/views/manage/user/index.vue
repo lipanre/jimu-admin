@@ -59,7 +59,7 @@ const {
       align: 'center',
       width: 100,
       render: row => {
-        if (row.gender === null) {
+        if (!row.gender) {
           return null;
         }
 
@@ -97,7 +97,7 @@ const {
       align: 'center',
       width: 100,
       render: row => {
-        if (row.status === null) {
+        if (!row.status) {
           return null;
         }
 

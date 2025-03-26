@@ -54,7 +54,7 @@ function createDefaultModel(): Model {
     phone: '',
     email: '',
     roleIds: [],
-    status: null,
+    status: '1',
     deptId: '',
     password: ''
   };
@@ -161,7 +161,7 @@ watch(visible, () => {
           </NRadioGroup>
         </NFormItem>
         <NFormItem label="所属部门" path="deptId">
-          <DeptSelect v-model:dept-id="model.deptId" />
+          <DeptSelect v-model:value="model.deptId" />
         </NFormItem>
         <NFormItem :label="$t('page.manage.user.userRole')" path="roles">
           <NSelect

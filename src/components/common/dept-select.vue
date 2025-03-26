@@ -7,7 +7,13 @@ defineOptions({
   name: 'DeptSelect'
 });
 
-const deptId = defineModel<string>('deptId');
+interface Props {
+  multiple?: boolean;
+}
+
+const { multiple = false } = defineProps<Props>();
+
+const value = defineModel<string>('value');
 
 const deptSelectOptions = ref<Api.SystemManage.Dept[]>([]);
 
@@ -20,7 +26,14 @@ onMounted(async () => {
 </script>
 
 <template>
-  <NTreeSelect v-model:value="deptId" checkable :options="deptSelectOptions" label-field="name" key-field="id" />
+  <NTreeSelect
+    v-model:value="value"
+    checkable
+    :options="deptSelectOptions"
+    label-field="name"
+    key-field="id"
+    :multiple="multiple"
+  />
 </template>
 
 <style lang="scss" scoped></style>

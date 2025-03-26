@@ -13,7 +13,7 @@ interface Props {
 
 const { multiple = false } = defineProps<Props>();
 
-const value = defineModel<string>('value');
+const value = defineModel<string | string[]>('value');
 
 const deptSelectOptions = ref<Api.SystemManage.Dept[]>([]);
 
@@ -29,6 +29,7 @@ onMounted(async () => {
   <NTreeSelect
     v-model:value="value"
     checkable
+    clearable
     :options="deptSelectOptions"
     label-field="name"
     key-field="id"

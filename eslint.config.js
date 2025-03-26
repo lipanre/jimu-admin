@@ -5,7 +5,7 @@ export default defineConfig(
   {
     rules: {
       'vue/multi-word-component-names': [
-        'warn',
+        'ignore',
         {
           ignores: ['index', 'App', 'Register', '[id]', '[url]']
         }

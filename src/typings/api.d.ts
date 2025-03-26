@@ -270,7 +270,7 @@ declare namespace Api {
     type UserSearchParams = CommonType.RecordNullable<
       Pick<Api.SystemManage.User, 'userName' | 'gender' | 'nickName' | 'phone' | 'email' | 'status'> &
         CommonSearchParams
-    > & { deptIds: string[] };
+    > & { deptIds?: string[] };
 
     /** user list */
     type UserList = Common.PaginatingQueryRecord<User>;

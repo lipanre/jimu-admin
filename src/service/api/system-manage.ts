@@ -82,6 +82,14 @@ export function fetchGetMenuList() {
   });
 }
 
+/** get menu list */
+export function fetchAllMenu() {
+  return request<Api.SystemManage.Menu[]>({
+    url: '/menu',
+    method: 'get',
+  });
+}
+
 /** get all pages */
 export function fetchGetAllPages() {
   return request<string[]>({

@@ -172,7 +172,7 @@ export const createDict = (dto: Api.SystemManage.Dict) =>
  * @param dto 字典dto
  */
 export const pageDict = (dto: Partial<Api.SystemManage.Dict>) =>
-  request<Api.SystemManage.PageDept>({
+  request<Api.SystemManage.DeptList>({
     url: '/dict',
     method: 'get',
     params: dto
@@ -224,7 +224,7 @@ export const allDictMapping = () =>
 /// ///////////////////////////////////////// dict end ////////////////////////////////
 /// ///////////////////////////////////////// dept start ////////////////////////////////
 export const fetchDept = () =>
-  request<Api.SystemManage.PageDept>({
+  request<Api.SystemManage.DeptList>({
     url: '/dept',
     method: 'get',
     params: {

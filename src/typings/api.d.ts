@@ -236,7 +236,7 @@ declare namespace Api {
 
     /** 字典查询参数 */
     type DeptSearchParams = CommonType.RecordNullable<Pick<Api.SystemManage.Dept, 'name'> & CommonSearchParams>;
-    type PageDept = Common.PaginatingQueryRecord<Dept>;
+    type DeptList = Common.PaginatingQueryRecord<Api.Common.CommonRecord<Api.SystemManage.Dept>>;
 
     /**
      * user gender

@@ -28,7 +28,7 @@ const { columns, columnChecks, data, loading, getData } = useTable({
       width: 48
     },
     {
-      key: 'id',
+      key: 'index',
       title: $t('page.manage.menu.rowNumber'),
       align: 'center',
       render: (_, index) => `${index + 1}`
@@ -105,31 +105,31 @@ const handleAdd = () => {
   openModal();
 };
 
-const handleDelete = async (id: string) => {
+async function handleDelete(id: string) {
   await batchDeleteDept(id);
   await onDeleted();
-};
+}
 
-const handleBatchDelete = async () => {
+async function handleBatchDelete() {
   await batchDeleteDept(...checkedRowKeys.value);
   await onBatchDeleted();
-};
+}
 
-const editingData: Ref<Api.SystemManage.Dept | null> = ref(null);
+const editingData: Ref<Api.Common.CommonRecord<Api.SystemManage.Dept> | null> = ref(null);
 async function handleEdit() {
   operateType.value = 'edit';
   openModal();
 }
 
-const handleAddChild = async (item: Api.SystemManage.Dept) => {
+async function handleAddChild(item: Api.Common.CommonRecord<Api.SystemManage.Dept>) {
   operateType.value = 'addChild';
   editingData.value = item;
   openModal();
-};
+}
 </script>
 
 <template>
-  <div ref="wrapperRef" class="flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
+  <div class="flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
     <NCard title="部门管理" :bordered="false" size="small" class="sm:flex-1-hidden card-wrapper">
       <template #header-extra>
         <TableHeaderOperation

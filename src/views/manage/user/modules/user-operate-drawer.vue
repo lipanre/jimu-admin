@@ -60,7 +60,9 @@ function createDefaultModel(): Model {
   };
 }
 
-type RuleKey = Extract<keyof Model, 'userName' | 'status' | 'phone' | 'email' | 'deptId' | 'password'>;
+type RuleKey = Extract<keyof Model, 'userName' | 'status' | 'phone' | 'email' | 'deptId'>;
+
+const isRequiredPassword = computed(() => props.operateType === 'add')
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
   userName: defaultRequiredRule,
@@ -68,7 +70,6 @@ const rules: Record<RuleKey, App.Global.FormRule> = {
   phone: patternRules.phone,
   email: patternRules.email,
   deptId: defaultRequiredRule,
-  password: patternRules.pwd
 };
 
 /** the enabled role options */
@@ -130,7 +131,7 @@ watch(visible, () => {
         <NFormItem :label="$t('page.manage.user.userName')" path="userName">
           <NInput v-model:value="model.userName" :placeholder="$t('page.manage.user.form.userName')" />
         </NFormItem>
-        <NFormItem label="密码" path="password">
+        <NFormItem label="密码" path="password" :rule="{ ...patternRules.pwd, required: isRequiredPassword }">
           <NInput
             v-model:value="model.password"
             type="password"

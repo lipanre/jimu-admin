@@ -46,6 +46,8 @@ async function getPages() {
   if (!error) {
     pages.value = data;
   }
+
+  console.log("pages", pages.value)
 }
 
 const pageSelectOptions = computed(() => {
@@ -65,6 +67,8 @@ async function getTree() {
   if (!error) {
     tree.value = data;
   }
+
+  console.log("tree", tree.value)
 }
 
 const checks = shallowRef<number[]>([]);
@@ -108,6 +112,7 @@ watch(visible, val => {
       v-model:checked-keys="checks"
       :data="tree"
       key-field="id"
+      label-field="menuName"
       checkable
       expand-on-click
       virtual-scroll

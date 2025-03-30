@@ -105,6 +105,8 @@ declare namespace Api {
       roleDesc: string;
       /** 数据权限 */
       dataScope: string | undefined;
+      /* 首页路径 */
+      home: string;
     }>;
 
     /** role search params */

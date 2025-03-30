@@ -44,7 +44,7 @@ const title = computed(() => {
   return titles[props.operateType];
 });
 
-type Model = Pick<Api.SystemManage.Role, 'roleName' | 'roleCode' | 'roleDesc' | 'status' | 'dataScope'>;
+type Model = Pick<Api.SystemManage.Role, 'roleName' | 'roleCode' | 'roleDesc' | 'status' | 'dataScope' | 'home'>;
 
 const model = ref(createDefaultModel());
 
@@ -54,11 +54,12 @@ function createDefaultModel(): Model {
     roleCode: '',
     roleDesc: '',
     dataScope: undefined,
-    status: '1'
+    status: '1',
+    home: "home"
   };
 }
 
-type RuleKey = Exclude<keyof Model, 'roleDesc'>;
+type RuleKey = Exclude<keyof Model, 'roleDesc' | 'home'>;
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
   roleName: defaultRequiredRule,
@@ -136,8 +137,8 @@ watch(visible, () => {
       <NSpace v-if="isEdit">
         <NButton @click="openMenuAuthModal">{{ $t('page.manage.role.menuAuth') }}</NButton>
         <MenuAuthModal v-model:visible="menuAuthVisible" :role-id="roleId" />
-        <NButton @click="openButtonAuthModal">{{ $t('page.manage.role.buttonAuth') }}</NButton>
-        <ButtonAuthModal v-model:visible="buttonAuthVisible" :role-id="roleId" />
+        <!-- <NButton @click="openButtonAuthModal">{{ $t('page.manage.role.buttonAuth') }}</NButton>
+        <ButtonAuthModal v-model:visible="buttonAuthVisible" :role-id="roleId" /> -->
       </NSpace>
       <template #footer>
         <NSpace :size="16">

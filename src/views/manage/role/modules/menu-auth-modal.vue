@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, shallowRef, watch } from 'vue';
 import { $t } from '@/locales';
-import { fetchGetAllPages, fetchGetMenuTree } from '@/service/api';
+import { fetchGetAllPages, fetchGetMenuButtonTree, fetchGetMenuTree, listRoleAuth, patchUpdateRole, roleAuth, updateRole } from '@/service/api';
 
 defineOptions({
   name: 'MenuAuthModal'
@@ -33,8 +33,7 @@ async function getHome() {
 }
 
 async function updateHome(val: string) {
-  // request
-
+  await patchUpdateRole(props.roleId, {home: val})
   home.value = val;
 }
 
@@ -62,7 +61,7 @@ const pageSelectOptions = computed(() => {
 const tree = shallowRef<Api.SystemManage.MenuTree[]>([]);
 
 async function getTree() {
-  const { error, data } = await fetchGetMenuTree();
+  const { error, data } = await fetchGetMenuButtonTree();
 
   if (!error) {
     tree.value = data;
@@ -71,18 +70,19 @@ async function getTree() {
   console.log("tree", tree.value)
 }
 
-const checks = shallowRef<number[]>([]);
+const checks = shallowRef<string[]>([]);
 
 async function getChecks() {
   console.log(props.roleId);
-  // request
-  checks.value = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21];
+  // 获取角色绑定的菜单id列表
+  const { data } = await listRoleAuth(props.roleId)
+  checks.value = data ?? [];
 }
 
-function handleSubmit() {
+async function handleSubmit() {
   console.log(checks.value, props.roleId);
   // request
-
+  await roleAuth(props.roleId, checks.value)
   window.$message?.success?.($t('common.modifySuccess'));
 
   closeModal();

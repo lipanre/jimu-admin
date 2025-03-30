@@ -1,3 +1,4 @@
+import { Method } from '~/packages/alova/src';
 import { request } from '../request';
 
 /// ///////////////////////////////////////// role start ////////////////////////////////
@@ -44,13 +45,27 @@ export function createRole(role: Pick<Api.SystemManage.Role, 'roleName' | 'roleC
  */
 export function updateRole(
   id: string,
-  role: Pick<Api.SystemManage.Role, 'roleName' | 'roleCode' | 'roleDesc' | 'status' | 'dataScope'>
+  role: Pick<Api.SystemManage.Role, 'roleName' | 'roleCode' | 'roleDesc' | 'status' | 'dataScope' | 'home'>
 ) {
   return request<boolean>({
     url: `/role/${id}`,
     method: 'put',
     data: role
   });
+}
+
+/**
+ * 
+ * @param id 角色id 
+ * @param role 角色
+ * @returns true - 成功 <br> false - 失败
+ */
+export function patchUpdateRole(id: string, role: Partial<Pick<Api.SystemManage.Role, 'roleName' | 'roleCode' | 'roleDesc' | 'status' | 'dataScope' | 'home'>>) {
+  return request<boolean>({
+    url: `/role/${id}`,
+    method: 'patch',
+    data: role
+  })
 }
 
 /**
@@ -64,6 +79,32 @@ export function deleteRole(...roleIds: string[]) {
     method: 'delete',
     data: [...roleIds]
   });
+}
+
+/**
+ * 角色授权
+ * 
+ * @param roleId 角色id
+ * @param permissionIds 权限id列表
+ */
+export function roleAuth(roleId: string, permissionIds: string[]) {
+  return request<boolean>({
+    url: `/role/auth/${roleId}`,
+    method: 'post',
+    data: permissionIds
+  })
+}
+
+/**
+ * 获取角色授权列表
+ * 
+ * @param roleId 角色id
+ */
+export function listRoleAuth(roleId: string) {
+  return request<string[]>({
+    url: `/role/auth/${roleId}`,
+    method: 'get'
+  })
 }
 
 /// ///////////////////////////////////////// role end ////////////////////////////////
@@ -154,6 +195,14 @@ export function deleteMenu(...menuIds: string[]) {
 export function fetchGetMenuTree() {
   return request<Api.SystemManage.MenuTree[]>({
     url: '/menu',
+    method: 'get'
+  });
+}
+
+/** get menu button tree */
+export function fetchGetMenuButtonTree() {
+  return request<Api.SystemManage.MenuTree[]>({
+    url: '/menu/menu-button-tree',
     method: 'get'
   });
 }

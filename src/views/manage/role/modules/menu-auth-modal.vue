@@ -116,6 +116,7 @@ watch(visible, val => {
       checkable
       expand-on-click
       virtual-scroll
+      default-expand-all
       block-line
       class="h-280px"
     />

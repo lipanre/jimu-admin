@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
-import { createUser, fetchGetRoleList, updateUser } from '@/service/api';
+import { createUser, fetchGetRoleList, fetchRoleHomes, updateUser } from '@/service/api';
 import { $t } from '@/locales';
 import { enableStatusOptions, userGenderOptions } from '@/constants/business';
 
@@ -41,7 +41,7 @@ const title = computed(() => {
 
 type Model = Pick<
   Api.SystemManage.User,
-  'userName' | 'gender' | 'nickName' | 'phone' | 'email' | 'roleIds' | 'status' | 'deptId' | 'password'
+  'userName' | 'gender' | 'nickName' | 'phone' | 'email' | 'roleIds' | 'status' | 'deptId' | 'password' | 'home'
 >;
 
 const model = ref(createDefaultModel());
@@ -56,7 +56,8 @@ function createDefaultModel(): Model {
     roleIds: [],
     status: '1',
     deptId: '',
-    password: ''
+    password: '',
+    home: ''
   };
 }
 
@@ -71,6 +72,21 @@ const rules: Record<RuleKey, App.Global.FormRule> = {
   email: patternRules.email,
   deptId: defaultRequiredRule,
 };
+
+/* 角色首页列表 */
+const homeOptions = ref<CommonType.Option<string>[]>([])
+
+watch(() => model.value.roleIds, async (value) => {
+  if (value?.length) {
+    const { error, data } = await fetchRoleHomes(value)
+    if (data) {
+      homeOptions.value = data.map(home => ({
+        label: home,
+        value: home
+      }))
+    }
+  }
+})
 
 /** the enabled role options */
 const roleOptions = ref<CommonType.Option<string>[]>([]);
@@ -171,6 +187,9 @@ watch(visible, () => {
             :options="roleOptions"
             :placeholder="$t('page.manage.user.form.userRole')"
           />
+        </NFormItem>
+        <NFormItem label="首页" path="home">
+          <NSelect v-model:value="model.home" placeholder="请选择用户首页" :options="homeOptions" />
         </NFormItem>
       </NForm>
       <template #footer>

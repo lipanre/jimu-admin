@@ -268,6 +268,8 @@ declare namespace Api {
       deptId: string;
       /* 密码 */
       password: string;
+      /* 首页 */
+      home: string;
     }>;
 
     /** user search params */

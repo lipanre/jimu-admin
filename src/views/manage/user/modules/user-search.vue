@@ -88,7 +88,7 @@ async function search() {
             </NFormItemGi>
 
             <NFormItemGi span="24 s:12 m:6" label="所属部门" path="deptIds" class="pr-24px">
-              <DeptSelect v-model:value="model.deptIds" multiple />
+              <DeptSelect v-model:value="model.deptIds" default-expand-all multiple />
             </NFormItemGi>
 
             <NFormItemGi span="24 m:6" class="pr-24px">

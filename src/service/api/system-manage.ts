@@ -13,6 +13,22 @@ export function fetchGetRoleList(params?: Api.SystemManage.RoleSearchParams) {
 }
 
 /**
+ * 获取角色首页列表
+ * 
+ * @param roleIds 角色id列表
+ * @returns 角色首页列表
+ */
+export function fetchRoleHomes(roleIds: string[]) {
+  return request<string[]>({
+    url: '/role/home-list',
+    method: 'get',
+    params: {
+      roleIds: roleIds.join(',')
+    }
+  })
+}
+
+/**
  * 获取角色详情
  *
  * @param id 角色id

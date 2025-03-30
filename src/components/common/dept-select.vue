@@ -9,9 +9,10 @@ defineOptions({
 
 interface Props {
   multiple?: boolean;
+  defaultExpandAll?: boolean;
 }
 
-const { multiple = false } = defineProps<Props>();
+const { multiple = false, defaultExpandAll = false } = defineProps<Props>();
 
 const value = defineModel<string | string[]>('value');
 
@@ -32,6 +33,7 @@ onMounted(async () => {
     clearable
     :options="deptSelectOptions"
     label-field="name"
+    :default-expand-all="defaultExpandAll"
     key-field="id"
     :multiple="multiple"
   />

@@ -44,7 +44,7 @@ const title = computed(() => {
   return titles[props.operateType];
 });
 
-type Model = Pick<Api.SystemManage.Role, 'roleName' | 'roleCode' | 'roleDesc' | 'status' | 'dataScope' | 'home'>;
+type Model = Pick<Api.SystemManage.Role, 'roleName' | 'roleCode' | 'roleDesc' | 'status' | 'dataScope' | 'home' | 'deptIds'>;
 
 const model = ref(createDefaultModel());
 
@@ -55,11 +55,12 @@ function createDefaultModel(): Model {
     roleDesc: '',
     dataScope: undefined,
     status: '1',
-    home: "home"
+    home: "home",
+    deptIds: []
   };
 }
 
-type RuleKey = Exclude<keyof Model, 'roleDesc' | 'home'>;
+type RuleKey = Exclude<keyof Model, 'roleDesc' | 'home' | 'deptIds'>;
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
   roleName: defaultRequiredRule,
@@ -110,6 +111,12 @@ watch(visible, () => {
     restoreValidation();
   }
 });
+
+watch(() => model.value.dataScope, (value) => {
+  if (value !== 'CUSTOMIZE') {
+    model.value.deptIds = []
+  }
+})
 </script>
 
 <template>
@@ -130,8 +137,13 @@ watch(visible, () => {
         <NFormItem label="数据权限" path="dataScope">
           <DictSelect v-model:value="model.dataScope" placeholder="请选择数据权限" dict-code="DATA_SCOPE" />
         </NFormItem>
+        <n-form-item v-if="model.dataScope == 'CUSTOMIZE'" label="部门列表" path="deptIds">
+          <DeptSelect v-model:value="model.deptIds" :multiple="true" />
+        </n-form-item>
         <NFormItem :label="$t('page.manage.role.roleDesc')" path="roleDesc">
-          <NInput v-model:value="model.roleDesc" :placeholder="$t('page.manage.role.form.roleDesc')" />
+          <NInput v-model:value="model.roleDesc" :placeholder="$t('page.manage.role.form.roleDesc')" >
+            <template #password-invisible-icon></template>
+          </NInput>
         </NFormItem>
       </NForm>
       <NSpace v-if="isEdit">

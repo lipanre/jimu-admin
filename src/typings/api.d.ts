@@ -107,6 +107,8 @@ declare namespace Api {
       dataScope: string | undefined;
       /* 首页路径 */
       home: string;
+      /* 部门列表 */
+      deptIds: string[];
     }>;
 
     /** role search params */

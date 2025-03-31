@@ -5,6 +5,7 @@ import { useAuthStore } from '@/store/modules/auth';
 import { useRouterPush } from '@/hooks/common/router';
 import { useSvgIcon } from '@/hooks/common/icon';
 import { $t } from '@/locales';
+import { fetchLogout } from '@/service/api';
 
 defineOptions({
   name: 'UserAvatar'
@@ -49,7 +50,8 @@ function logout() {
     content: $t('common.logoutConfirm'),
     positiveText: $t('common.confirm'),
     negativeText: $t('common.cancel'),
-    onPositiveClick: () => {
+    onPositiveClick: async () => {
+      await fetchLogout()
       authStore.resetStore();
     }
   });

@@ -17,6 +17,17 @@ export function fetchLogin(userName: string, password: string) {
   });
 }
 
+/**
+ * 退出登录
+ * @returns true - success, false - fail
+ */
+export function fetchLogout() {
+  return request<boolean>({
+    url: '/logout',
+    method: 'post'
+  })
+}
+
 /** Get user info */
 export function fetchGetUserInfo() {
   return request<Api.Auth.UserInfo>({ url: '/auth/user-info' });

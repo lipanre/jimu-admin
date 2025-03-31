@@ -131,7 +131,7 @@ const { columns, columnChecks, data, loading, getData, getDataByPage } = useTabl
     {
       key: 'parentId',
       title: $t('page.manage.menu.parentId'),
-      width: 90,
+      width: 200,
       align: 'center'
     },
     {

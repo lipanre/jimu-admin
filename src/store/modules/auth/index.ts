@@ -28,11 +28,17 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   });
 
   /** is super role in static route */
-  const isStaticSuper = computed(() => {
-    const { VITE_AUTH_ROUTE_MODE, VITE_STATIC_SUPER_ROLE } = import.meta.env;
+  const isAdmin = computed(() => {
+    const { VITE_ADMIN_ROLE } = import.meta.env;
 
-    return VITE_AUTH_ROUTE_MODE === 'static' && userInfo.roles.includes(VITE_STATIC_SUPER_ROLE);
+    return userInfo.roles.includes(VITE_ADMIN_ROLE);
   });
+
+  /* 判断是否是超级管理员 */
+  const isSuperAdmin = computed(() => {
+    const { VITE_SUPER_ADMIN_ROLE} = import.meta.env;
+    return userInfo.roles.includes(VITE_SUPER_ADMIN_ROLE);
+  })
 
   /** Is login */
   const isLogin = computed(() => Boolean(token.value));
@@ -87,7 +93,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   async function logout() {
     startLoading();
 
-    
+
     endLoading();
   }
 
@@ -116,10 +122,8 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     if (!error) {
       // update store
       Object.assign(userInfo, info);
-
       return true;
     }
-
     return false;
   }
 
@@ -138,7 +142,8 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   return {
     token,
     userInfo,
-    isStaticSuper,
+    isAdmin,
+    isSuperAdmin,
     isLogin,
     loginLoading,
     resetStore,

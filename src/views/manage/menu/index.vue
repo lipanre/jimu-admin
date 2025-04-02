@@ -82,13 +82,13 @@ const { columns, columnChecks, data, loading, getData, getDataByPage } = useTabl
       key: 'routeName',
       title: $t('page.manage.menu.routeName'),
       align: 'center',
-      minWidth: 160
+      minWidth: 180
     },
     {
       key: 'routePath',
       title: $t('page.manage.menu.routePath'),
       align: 'center',
-      minWidth: 160
+      minWidth: 180
     },
     {
       key: 'status',

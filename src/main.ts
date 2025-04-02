@@ -4,6 +4,7 @@ import { setupAppVersionNotification, setupDayjs, setupIconifyOffline, setupLoad
 import { setupStore } from './store';
 import { setupRouter } from './router';
 import { setupI18n } from './locales';
+import { setupDirective } from './directive';
 import App from './App.vue';
 
 async function setupApp() {
@@ -23,6 +24,8 @@ async function setupApp() {
 
   setupI18n(app);
 
+  setupDirective(app)
+  
   setupAppVersionNotification();
 
   app.mount('#app');

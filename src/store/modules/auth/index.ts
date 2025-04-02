@@ -139,6 +139,14 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     }
   }
 
+  /**
+   * 判断是否是普通用户
+   * @returns 是否是普通用户
+   */
+  function isOrdinaryUser() {
+    return !isAdmin && !isSuperAdmin
+  }
+
   return {
     token,
     userInfo,
@@ -148,6 +156,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     loginLoading,
     resetStore,
     login,
-    initUserInfo
+    initUserInfo,
+    isOrdinaryUser
   };
 });

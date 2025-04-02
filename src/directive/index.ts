@@ -1,19 +1,7 @@
-import { useAuthStore } from "@/store/modules/auth";
+import { App } from "vue";
+import { permission } from "@/directive/permission";
 
 
-interface Directive {
-    name: string;
-    directive: any;
-}
-
-
-const vPermission: Directive = {
-    name: 'permission',
-    directive: {
-        mounted(el: HTMLElement, binding: any, vnode: any) {
-            const authStore = useAuthStore()
-            const { value } = binding
-            
-        }
-    }
-}
+export const setupDirective = (app: App) => {
+    app.directive("permission", permission);
+};

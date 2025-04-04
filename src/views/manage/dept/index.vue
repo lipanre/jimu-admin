@@ -43,7 +43,7 @@ const { columns, columnChecks, data, loading, getData } = useTable({
       key: 'parentId',
       title: '父级部门ID',
       align: 'center',
-      minWidth: 80
+      width: 200
     },
     {
       key: 'sort',

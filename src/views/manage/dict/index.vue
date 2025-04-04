@@ -9,6 +9,12 @@ import DictOperateDrawer from '@/views/manage/dict/modules/dict-operate-drawer.v
 
 const appStore = useAppStore();
 
+const permission: CommonType.Permission = {
+  add: 'dict:add',
+  delete: 'dict:delete',
+  edit: 'dict:edit',
+  search: 'dict:search'
+}
 
 const {
   columns,
@@ -59,14 +65,14 @@ const {
       width: 130,
       render: row => (
         <div class="flex-center gap-8px">
-          <NButton type="primary" ghost size="small" onClick={() => handleEdit(row.id)}>
+          <NButton v-permission={permission.edit} type="primary" ghost size="small" onClick={() => handleEdit(row.id)}>
             {$t('common.edit')}
           </NButton>
           <NPopconfirm onPositiveClick={() => handleBatchDelete([row.id])}>
             {{
               default: () => $t('common.confirmDelete'),
               trigger: () => (
-                <NButton type="error" ghost size="small">
+                <NButton v-permission={permission.delete} type="error" ghost size="small">
                   {$t('common.delete')}
                 </NButton>
               )
@@ -101,10 +107,10 @@ const handleBatchDelete = async (ids: string[]) => {
 </script>
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
-    <DictSearch v-model="searchParams" @reset="resetSearchParams" @search="getDataByPage" />
+    <DictSearch v-permission="'dict-search'" v-model="searchParams" @reset="resetSearchParams" @search="getDataByPage" />
     <NCard title="字典列表" :bordered="false" size="small" class="sm:flex-1-hidden card-wrapper">
       <template #header-extra>
-        <TableHeaderOperation v-model:columns="columnChecks" :disabled-delete="checkedRowKeys.length === 0"
+        <TableHeaderOperation :add-permission="permission.add" :delete-permission="permission.delete" v-model:columns="columnChecks" :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading" @add="handleAdd" @delete="() => handleBatchDelete(checkedRowKeys)" @refresh="getData" />
       </template>
       <NDataTable v-model:checked-row-keys="checkedRowKeys" :columns="columns" :data="data" size="small"

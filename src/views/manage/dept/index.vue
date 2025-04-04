@@ -19,6 +19,14 @@ const { bool: visible, setTrue: openModal } = useBoolean();
 
 const operateType = ref<OperateType>('add');
 
+const permission: CommonType.Permission = {
+  add: "dept:add",
+  delete: 'dept:delete',
+  edit: 'dept:edit',
+  search: 'dept:search',
+  addChild: 'dept:addChild'
+}
+
 const { columns, columnChecks, data, loading, getData } = useTable({
   apiFn: fetchDept,
   columns: () => [
@@ -76,17 +84,17 @@ const { columns, columnChecks, data, loading, getData } = useTable({
       width: 230,
       render: row => (
         <div class="flex-center justify-end gap-8px">
-          <NButton type="primary" ghost size="small" onClick={() => handleAddChild(row)}>
+          <NButton v-permission={permission.addChild} type="primary" ghost size="small" onClick={() => handleAddChild(row)}>
             添加子部门
           </NButton>
-          <NButton type="primary" ghost size="small" onClick={() => handleEdit()}>
+          <NButton v-permission={permission.edit} type="primary" ghost size="small" onClick={() => handleEdit()}>
             {$t('common.edit')}
           </NButton>
           <NPopconfirm onPositiveClick={() => handleDelete(row.id)}>
             {{
               default: () => $t('common.confirmDelete'),
               trigger: () => (
-                <NButton type="error" ghost size="small">
+                <NButton v-permission={permission.delete} type="error" ghost size="small">
                   {$t('common.delete')}
                 </NButton>
               )
@@ -136,6 +144,8 @@ async function handleAddChild(item: Api.Common.CommonRecord<Api.SystemManage.Dep
           v-model:columns="columnChecks"
           :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
+          :add-permission="permission.add"
+          :delete-permission="permission.delete"
           @add="handleAdd"
           @delete="handleBatchDelete"
           @refresh="getData"

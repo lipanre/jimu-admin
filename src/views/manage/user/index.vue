@@ -10,6 +10,13 @@ import UserSearch from './modules/user-search.vue';
 
 const appStore = useAppStore();
 
+const permission: CommonType.Permission = {
+  add: 'user:add',
+  delete: 'user:delete',
+  edit: 'user:edit',
+  search: 'user:search',
+}
+
 const {
   columns,
   columnChecks,
@@ -118,14 +125,14 @@ const {
       width: 130,
       render: row => (
         <div class="flex-center gap-8px">
-          <NButton type="primary" ghost size="small" onClick={() => edit(row.id)}>
+          <NButton v-permission={permission.edit} type="primary" ghost size="small" onClick={() => edit(row.id)}>
             {$t('common.edit')}
           </NButton>
           <NPopconfirm onPositiveClick={() => handleDelete(row.id)}>
             {{
               default: () => $t('common.confirmDelete'),
               trigger: () => (
-                <NButton type="error" ghost size="small">
+                <NButton v-permission={permission.delete} type="error" ghost size="small">
                   {$t('common.delete')}
                 </NButton>
               )
@@ -168,13 +175,15 @@ function edit(id: string) {
 
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
-    <UserSearch v-model:model="searchParams" @reset="resetSearchParams" @search="getDataByPage" />
+    <UserSearch v-permission="permission.search" v-model:model="searchParams" @reset="resetSearchParams" @search="getDataByPage" />
     <NCard :title="$t('page.manage.user.title')" :bordered="false" size="small" class="sm:flex-1-hidden card-wrapper">
       <template #header-extra>
         <TableHeaderOperation
           v-model:columns="columnChecks"
           :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
+          :add-permission="permission.add"
+          :delete-permission="permission.delete"
           @add="handleAdd"
           @delete="handleBatchDelete"
           @refresh="getData"

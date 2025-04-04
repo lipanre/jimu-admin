@@ -22,4 +22,13 @@ declare namespace CommonType {
   type RecordNullable<T> = {
     [K in keyof T]?: T[K] | null;
   };
+
+  /* permission */
+  interface Permission {
+    add: string;
+    delete: string;
+    edit: string;
+    search: string;
+    addChild?: string;
+  }
 }

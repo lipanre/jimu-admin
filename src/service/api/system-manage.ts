@@ -232,7 +232,7 @@ export function fetchGetMenuButtonTree() {
  *
  * @param dto
  */
-export const createDict = (dto: Api.SystemManage.Dict) =>
+export const createDict = (dto: Pick<Api.SystemManage.Dict, 'code' | 'name' | 'description'> & { details: Api.SystemManage.DictDetail[] }) =>
   request<boolean>({
     url: '/dict',
     method: 'post',
@@ -244,8 +244,8 @@ export const createDict = (dto: Api.SystemManage.Dict) =>
  *
  * @param dto 字典dto
  */
-export const pageDict = (dto: Partial<Api.SystemManage.Dict>) =>
-  request<Api.SystemManage.DeptList>({
+export const pageDict = (dto: Api.SystemManage.DictSearchParams) =>
+  request<Api.SystemManage.DictList>({
     url: '/dict',
     method: 'get',
     params: dto
@@ -322,7 +322,7 @@ export const fetchDeptDetail = (deptId: string) =>
  *
  * @param dept 部门
  */
-export const createDept = (dept: Api.SystemManage.Dept) =>
+export const createDept = (dept: Partial<Api.SystemManage.Dept>) =>
   request<boolean>({
     url: '/dept',
     method: 'post',
@@ -335,7 +335,7 @@ export const createDept = (dept: Api.SystemManage.Dept) =>
  * @param deptId 部门id
  * @param dept 部门信息
  */
-export const updateDept = (deptId: string, dept: Api.SystemManage.Dept) =>
+export const updateDept = (deptId: string, dept: Partial<Api.SystemManage.Dept>) =>
   request<boolean>({
     url: `/dept/${deptId}`,
     method: 'put',

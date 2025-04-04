@@ -37,15 +37,16 @@ const title = computed(() => {
   return titles[props.operateType];
 });
 
-const createDefaultModel = (): Api.SystemManage.Dept => ({
+const createDefaultModel = (): Partial<Api.SystemManage.Dept> => ({
   name: '',
   parentId: '0',
   sort: 0,
   chargePerson: '',
   phone: '',
-  email: ''
+  email: '',
+
 });
-const model = ref<Api.SystemManage.Dept>(createDefaultModel());
+const model = ref<Partial<Api.SystemManage.Dept>>(createDefaultModel());
 
 type RuleKey = Extract<Api.SystemManage.Dept, 'name'>;
 

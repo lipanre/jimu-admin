@@ -62,7 +62,7 @@ interface Props {
   /** the type of operation */
   operateType: NaiveUI.TableOperateType;
   /** the edit row data */
-  rowData?: Api.SystemManage.Dict & { details: Api.SystemManage.DeptDetail[] } | null;
+  rowData?: Api.Common.CommonRecord<Api.SystemManage.Dict> | null;
 }
 
 const props = defineProps<Props>();
@@ -88,7 +88,7 @@ const title = computed(() => {
   return titles[props.operateType];
 });
 
-type Model = Pick<Api.SystemManage.Dict, 'code' | 'name' | 'description'> & { details: Api.SystemManage.DeptDetail[] };
+type Model = Pick<Api.SystemManage.Dict, 'code' | 'name' | 'description'> & { details: Api.SystemManage.DictDetail[] };
 
 const model = ref(createDefaultModel());
 
@@ -101,7 +101,7 @@ function createDefaultModel(): Model {
   };
 }
 
-type RuleKey = Exclude<keyof Model, 'description'>;
+type RuleKey = Exclude<keyof Model, 'description' | 'details'>;
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
   code: defaultRequiredRule,
@@ -142,7 +142,7 @@ async function handleSubmit() {
   emit('submitted');
 }
 
-const handleCreateDictDetail = (): Api.SystemManage.DeptDetail => {
+const handleCreateDictDetail = (): Partial<Api.SystemManage.DictDetail> => {
   return {
     dictKey: '',
     dictValue: ''

@@ -18,6 +18,14 @@ const { bool: visible, setTrue: openModal } = useBoolean();
 
 const wrapperRef = ref<HTMLElement | null>(null);
 
+const permission: CommonType.Permission = {
+  add: 'menu:add',
+  delete: 'menu:delete',
+  edit: 'menu:edit',
+  search:'menu:search',
+  addChild:'menu:addChild'
+}
+
 const { columns, columnChecks, data, loading, getData, getDataByPage } = useTable({
   apiFn: fetchGetMenuList,
   columns: () => [
@@ -148,18 +156,18 @@ const { columns, columnChecks, data, loading, getData, getDataByPage } = useTabl
       render: row => (
         <div class="flex-center justify-end gap-8px">
           {row.menuType === '1' && (
-            <NButton type="primary" ghost size="small" onClick={() => handleAddChildMenu(row)}>
+            <NButton v-permission={permission.addChild} type="primary" ghost size="small" onClick={() => handleAddChildMenu(row)}>
               {$t('page.manage.menu.addChildMenu')}
             </NButton>
           )}
-          <NButton type="primary" ghost size="small" onClick={() => handleEdit(row)}>
+          <NButton v-permission={permission.edit} type="primary" ghost size="small" onClick={() => handleEdit(row)}>
             {$t('common.edit')}
           </NButton>
           <NPopconfirm onPositiveClick={() => handleDelete(row.id)}>
             {{
               default: () => $t('common.confirmDelete'),
               trigger: () => (
-                <NButton type="error" ghost size="small">
+                <NButton v-permission={permission.delete} type="error" ghost size="small">
                   {$t('common.delete')}
                 </NButton>
               )
@@ -231,6 +239,8 @@ init();
           v-model:columns="columnChecks"
           :disabled-delete="checkedRowKeys.length === 0"
           :loading="loading"
+          :add-permission="permission.add"
+          :delete-permission="permission.delete"
           @add="handleAdd"
           @delete="handleBatchDelete"
           @refresh="getData"

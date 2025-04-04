@@ -216,6 +216,8 @@ declare namespace Api {
       Pick<Api.SystemManage.Dict, 'code' | 'name'> & CommonSearchParams
     >;
     type PageDict = Common.PaginatingQueryRecord<Dict>;
+    type DictList = Common.PaginatingQueryRecord<Api.Common.CommonRecord<Api.SystemManage.Dict>>;
+
 
     /** 字典明细 */
     type DictDetail = Common.CommonRecord<{
@@ -223,7 +225,8 @@ declare namespace Api {
       dictValue: string;
     }>;
 
-    type Dept = {
+    type Dept = Api.Common.CommonRecord<{
+      /* 部门id */
       /* 部门名称 */
       name: string;
       /* 父级部门id */
@@ -236,7 +239,7 @@ declare namespace Api {
       phone: string;
       /* 邮箱 */
       email: string;
-    };
+    }>;
 
     /** 字典查询参数 */
     type DeptSearchParams = CommonType.RecordNullable<Pick<Api.SystemManage.Dept, 'name'> & CommonSearchParams>;

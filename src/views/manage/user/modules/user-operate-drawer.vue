@@ -61,7 +61,7 @@ function createDefaultModel(): Model {
   };
 }
 
-type RuleKey = Extract<keyof Model, 'userName' | 'status' | 'phone' | 'email' | 'deptId'>;
+type RuleKey = Extract<keyof Model, 'userName' | 'status' | 'phone' | 'email'>;
 
 const isRequiredPassword = computed(() => props.operateType === 'add')
 
@@ -70,7 +70,6 @@ const rules: Record<RuleKey, App.Global.FormRule> = {
   status: defaultRequiredRule,
   phone: patternRules.phone,
   email: patternRules.email,
-  deptId: defaultRequiredRule,
 };
 
 /* 角色首页列表 */
@@ -148,15 +147,8 @@ watch(visible, () => {
           <NInput v-model:value="model.userName" :placeholder="$t('page.manage.user.form.userName')" />
         </NFormItem>
         <NFormItem label="密码" path="password" :rule="{ ...patternRules.pwd, required: isRequiredPassword }">
-          <NInput
-            v-model:value="model.password"
-            type="password"
-            placeholder="请输入密码"
-            show-password-on="mousedown"
-            maxlength="16"
-            show-count
-            clearable
-          />
+          <NInput v-model:value="model.password" type="password" placeholder="请输入密码" show-password-on="mousedown"
+            maxlength="16" show-count clearable />
         </NFormItem>
         <NFormItem :label="$t('page.manage.user.userGender')" path="userGender">
           <NRadioGroup v-model:value="model.gender">
@@ -177,16 +169,15 @@ watch(visible, () => {
             <NRadio v-for="item in enableStatusOptions" :key="item.value" :value="item.value" :label="$t(item.label)" />
           </NRadioGroup>
         </NFormItem>
-        <NFormItem label="所属部门" path="deptId">
+        <NFormItem label="所属部门" path="deptId" :rule="{
+          required: !rowData?.superAdmin && !rowData?.admin,
+          message: '请选择用户所属部门'
+        }">
           <DeptSelect v-model:value="model.deptId" />
         </NFormItem>
         <NFormItem :label="$t('page.manage.user.userRole')" path="roles">
-          <NSelect
-            v-model:value="model.roleIds"
-            multiple
-            :options="roleOptions"
-            :placeholder="$t('page.manage.user.form.userRole')"
-          />
+          <NSelect v-model:value="model.roleIds" multiple :options="roleOptions"
+            :placeholder="$t('page.manage.user.form.userRole')" />
         </NFormItem>
         <NFormItem label="首页" path="home">
           <NSelect v-model:value="model.home" placeholder="请选择用户首页" :options="homeOptions" />

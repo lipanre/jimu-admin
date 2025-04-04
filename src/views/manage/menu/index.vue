@@ -22,7 +22,6 @@ const permission: CommonType.Permission = {
   add: 'menu:add',
   delete: 'menu:delete',
   edit: 'menu:edit',
-  search:'menu:search',
   addChild:'menu:addChild'
 }
 

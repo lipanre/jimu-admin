@@ -28,7 +28,7 @@ declare namespace CommonType {
     add: string;
     delete: string;
     edit: string;
-    search: string;
+    search?: string;
     addChild?: string;
   }
 }

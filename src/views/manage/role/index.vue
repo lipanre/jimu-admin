@@ -7,8 +7,11 @@ import { $t } from '@/locales';
 import { enableStatusRecord } from '@/constants/business';
 import RoleOperateDrawer from './modules/role-operate-drawer.vue';
 import RoleSearch from './modules/role-search.vue';
+import { useAuthStore } from '@/store/modules/auth';
 
 const appStore = useAppStore();
+const authStore = useAuthStore();
+
 
 const permission: CommonType.Permission = {
   add: "role:add",
@@ -42,7 +45,10 @@ const {
     {
       type: 'selection',
       align: 'center',
-      width: 48
+      width: 48,
+      disabled(row) {
+        return !canHandleRole(row);
+      }
     },
     {
       key: 'index',
@@ -92,8 +98,9 @@ const {
       title: $t('common.operate'),
       align: 'center',
       width: 130,
-      render: row => (
-        <div class="flex-center gap-8px">
+      render: row => {
+        if (!canHandleRole(row)) return null;
+        return (<div class="flex-center gap-8px">
           <NButton v-permission={permission.edit} type="primary" ghost size="small" onClick={() => edit(row.id)}>
             {$t('common.edit')}
           </NButton>
@@ -107,8 +114,8 @@ const {
               )
             }}
           </NPopconfirm>
-        </div>
-      )
+        </div>)
+      }
     }
   ]
 });
@@ -139,6 +146,28 @@ async function handleDelete(id: string) {
 
 function edit(id: string) {
   handleEdit(id);
+}
+
+function canHandleRole(role: Api.SystemManage.Role): boolean {
+
+  // 1. 判断当前登录用户是管理员还是普通用户
+  if (authStore.isOrdinaryUser()) {
+    // 1.1 如果当前登录用户是普通用户，则对于管理员无法编辑与删除
+    if (authStore.isAdminRole(role.roleCode) || authStore.isSuperAdminRole(role.roleCode)) {
+      return false;
+    }
+    return true;
+  }
+  // 1.2 如果当前登录用户是管理员
+  // 1.2.1 超级管理员可以编辑删除所有角色
+  if (authStore.isSuperAdmin) {
+    return true;
+  }
+  // 1.2.2 普通管理员不能编辑删除超级管理员
+  if (authStore.isSuperAdminRole(role.roleCode)) {
+    return false;
+  }
+  return true;
 }
 </script>
 

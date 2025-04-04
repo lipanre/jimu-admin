@@ -7,9 +7,10 @@ export const permission: ObjectDirective = {
 
     mounted(el, binding) {
         const authStore = useAuthStore()
+
         if (!authStore.isOrdinaryUser()) return 
 
-        const { value, arg = 'button' } = binding.value
+        const { value, arg = 'button' } = binding
 
         // 根据角色来进行权限控制
         if (arg === 'role') {
@@ -25,7 +26,7 @@ export const permission: ObjectDirective = {
             el.remove()
             return;
         }
-
+        
         if (arg === 'button') {
             // 更具菜单权限来进行权限控制
             // 如果根据按钮进行权限控制，只需要传递一个字符串

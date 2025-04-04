@@ -66,6 +66,8 @@ declare namespace Api {
       userName: string;
       roles: string[];
       buttons: string[];
+      admin: boolean;
+      superAdmin: boolean;
     }
   }
 
@@ -273,6 +275,10 @@ declare namespace Api {
       password: string;
       /* 首页 */
       home: string;
+      /* 管理员 */
+      admin: boolean;
+      /* 超级管理员 */
+      superAdmin: boolean;
     }>;
 
     /** user search params */

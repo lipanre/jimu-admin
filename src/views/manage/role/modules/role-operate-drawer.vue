@@ -60,13 +60,16 @@ function createDefaultModel(): Model {
   };
 }
 
-type RuleKey = Exclude<keyof Model, 'roleDesc' | 'home' | 'deptIds'>;
+type RuleKey = Exclude<keyof Model, 'roleDesc' | 'home' | 'deptIds' | 'dataScope'>;
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
   roleName: defaultRequiredRule,
-  roleCode: defaultRequiredRule,
+  roleCode: {
+    pattern: /^R_\w+$/,
+    message: "角色编码需要以R_开头,且只能包含字母、数字、下划线",
+    trigger: 'change'
+  },
   status: defaultRequiredRule,
-  dataScope: defaultRequiredRule
 };
 
 const roleId = computed(() => props.rowData?.id || '');

@@ -24,20 +24,19 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     id: '',
     userName: '',
     roles: [],
-    buttons: []
+    buttons: [],
+    admin: null,
+    superAdmin: null,
   });
 
   /** is super role in static route */
   const isAdmin = computed(() => {
-    const { VITE_ADMIN_ROLE } = import.meta.env;
-
-    return userInfo.roles.includes(VITE_ADMIN_ROLE);
+    return userInfo.admin;
   });
 
   /* 判断是否是超级管理员 */
   const isSuperAdmin = computed(() => {
-    const { VITE_SUPER_ADMIN_ROLE} = import.meta.env;
-    return userInfo.roles.includes(VITE_SUPER_ADMIN_ROLE);
+    return userInfo.superAdmin;
   })
 
   /** Is login */
@@ -144,7 +143,29 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
    * @returns 是否是普通用户
    */
   function isOrdinaryUser() {
-    return !isAdmin && !isSuperAdmin
+    return !isAdmin.value && !isSuperAdmin.value
+  }
+
+  /**
+   * 判断指定角色编码是否是管理员
+   * 
+   * @param roleCode 角色编码
+   * @returns true - 是管理员角色 <br> false - 不是管理员角色
+   */
+  function isAdminRole(roleCode: string) {
+    const { VITE_ADMIN_ROLE } = import.meta.env;
+    return VITE_ADMIN_ROLE === roleCode
+  }
+
+  /**
+   * 判断指定角色编码是否是超级管理员
+   * 
+   * @param roleCode 角色编码
+   * @returns true - 是超级管理员角色 <br> false - 不是超级管理员角色
+   */
+  function isSuperAdminRole(roleCode: string) {
+    const { VITE_SUPER_ADMIN_ROLE } = import.meta.env;
+    return VITE_SUPER_ADMIN_ROLE === roleCode
   }
 
   return {
@@ -157,6 +178,8 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     resetStore,
     login,
     initUserInfo,
-    isOrdinaryUser
+    isOrdinaryUser,
+    isAdminRole,
+    isSuperAdminRole,
   };
 });

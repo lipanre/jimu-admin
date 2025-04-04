@@ -61,7 +61,7 @@ const { columns, columnChecks, data, loading, getData } = useTable({
       key: 'phone',
       title: '联系电话',
       align: 'center',
-      minWidth: 80
+      width: 120
     },
     {
       key: 'email',

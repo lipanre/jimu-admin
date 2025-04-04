@@ -9,7 +9,7 @@ export const permission: ObjectDirective = {
         const authStore = useAuthStore()
         if (!authStore.isOrdinaryUser()) return 
 
-        const { value, arg } = binding.value
+        const { value, arg = 'button' } = binding.value
 
         // 根据角色来进行权限控制
         if (arg === 'role') {
@@ -26,12 +26,14 @@ export const permission: ObjectDirective = {
             return;
         }
 
-        // 更具菜单权限来进行权限控制
-        // 如果根据按钮进行权限控制，只需要传递一个字符串
-        const userButtons = authStore.userInfo.buttons
-        if (userButtons?.includes(value)) {
-            return;
+        if (arg === 'button') {
+            // 更具菜单权限来进行权限控制
+            // 如果根据按钮进行权限控制，只需要传递一个字符串
+            const userButtons = authStore.userInfo.buttons
+            if (userButtons?.includes(value)) {
+                return;
+            }
+            el.remove()
         }
-        el.remove()
     }
 }
